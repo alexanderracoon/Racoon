@@ -8,6 +8,8 @@
 import SwiftUI
 import CoreData
 
+
+
 struct InitialView: View {
     @Environment(\.managedObjectContext) private var viewContext
 
@@ -84,3 +86,5 @@ private let itemFormatter: DateFormatter = {
 #Preview {
     InitialView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
 }
+
+
