@@ -71,4 +71,9 @@ struct HomeScreenRecentGridView: View {
         .padding(.top, 0)
         
     }
+    struct TopMenu{
+        static let height: CGFloat = 45
+        static let width: CGFloat = 45
+        static let padding: CGFloat = 10
+    }
 }
