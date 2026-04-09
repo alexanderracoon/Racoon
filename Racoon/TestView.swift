@@ -34,3 +34,8 @@ struct TestView: View {
     TestView()
 }
 
+//// Convert NSSet to typed array for easier use
+//var tracksInAlbumArray: [Track] {
+//    let set = tracks as? Set<Track> ?? []
+//    return set.sorted { ($0.timeAdded ?? Date()) < ($1.timeAdded ?? Date()) }
+//}

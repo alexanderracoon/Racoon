@@ -1,36 +1,21 @@
 //
-//  Persistence.swift
+//  CoreDataManager.swift
 //  Racoon
 //
-//  Created by Александр Переславцев on 28.03.2026.
+//  Created by Александр Переславцев on 07.04.2026.
 //
 
+import Foundation
 import CoreData
 
-struct PersistenceController {
-    static let shared = PersistenceController()
-
-//    @MainActor
-//    static let preview: PersistenceController = {
-//        let result = PersistenceController(inMemory: true)
-//        let viewContext = result.container.viewContext
-//        for _ in 0..<10 {
-//            let newItem = Item(context: viewContext)
-//            newItem.timestamp = Date()
-//        }
-//        do {
-//            try viewContext.save()
-//        } catch {
-//            // Replace this implementation with code to handle the error appropriately.
-//            // fatalError() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development.
-//            let nsError = error as NSError
-//            fatalError("Unresolved error \(nsError), \(nsError.userInfo)")
-//        }
-//        return result
-//    }()
-
+class CoreDataManager {
+    static let shared = CoreDataManager()
+//    private init() {}
+        
     let container: NSPersistentContainer
-
+    
+    
+    
     init(inMemory: Bool = false) {
         container = NSPersistentContainer(name: "Racoon")
         if inMemory {
@@ -49,6 +34,17 @@ struct PersistenceController {
                 fatalError("Unresolved error \(error), \(error.userInfo)")
             }
         })
+        // Чтобы вью автоматически видела 
         container.viewContext.automaticallyMergesChangesFromParent = true
+    }
+    
+    func saveContext () {
+        if container.viewContext.hasChanges {
+            do {
+                try container.viewContext.save()
+            } catch {
+                print(error.localizedDescription)
+            }
+        }
     }
 }
