@@ -18,13 +18,7 @@ extension Track {
     }
     
     var artistsSet: Set<Artist> {
-        get {
-//            if let artists = artists as? Set<Artist> {
-//                return artists
-//            } else {
-//                return []
-//            }
-            
+        get {            
             (artists as? Set<Artist>) ?? []
         }
         set {

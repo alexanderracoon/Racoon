@@ -40,7 +40,7 @@ class CoreDataManager {
         container.viewContext.automaticallyMergesChangesFromParent = true
     }
     
-    private func saveContext () {
+    private func save () {
         guard context.hasChanges else { return }
         do {
             try context.save()
@@ -116,7 +116,7 @@ class CoreDataManager {
             track.addToGenres(genre)
         }
         
-        saveContext()
+        save()
         return track
     }
     
@@ -140,7 +140,7 @@ class CoreDataManager {
         }
         
         //Меняем значения в oldTrack на новые из newTrack, но id оставляем старый
-        oldTrack.id = newTrack.id
+//        oldTrack.id = newTrack.id
         oldTrack.name = newTrack.name
         oldTrack.duration = newTrack.duration
         oldTrack.fileURL = newTrack.fileURL
@@ -172,7 +172,7 @@ class CoreDataManager {
         newTrack.genresSet.forEach { oldTrack.addToGenres($0) }
 //        oldTrack.genres = newTrack.genres
     
-        saveContext()
+        save()
     }
     
     func deleteTrack(with id: UUID) {
@@ -184,7 +184,7 @@ class CoreDataManager {
         }
         
         context.delete(trackToDelete)
-        saveContext()
+        save()
     }
     
     func deleteAllTracks() {
@@ -193,7 +193,7 @@ class CoreDataManager {
             let tracks = try? context.fetch(request) as? [Track]
             tracks?.forEach { context.delete($0) }
         }
-        saveContext()
+        save()
     }
     
     private func fetchOrCreateGenre(by name: String) -> Genre {
