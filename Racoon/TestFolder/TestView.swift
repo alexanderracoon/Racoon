@@ -8,7 +8,9 @@
 import SwiftUI
 
 struct TestView: View {
+    let myNumber: Int = 2
     var body: some View {
+        Text("^[\(myNumber) attempt](inflect: true)")
         Text("Hello")
             .background {
                 Rectangle().foregroundStyle(Color.blue)

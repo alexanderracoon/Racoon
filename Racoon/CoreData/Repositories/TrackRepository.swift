@@ -18,8 +18,9 @@ class TrackRepository: TrackRepositoryProtocol {
         self.context = coreDataStack.context
     }
     
+    
     func create(
-        id: UUID = UUID(),
+//        id: UUID = UUID(),
         name: String = "",
         duration: Double = 0,
         fileURL: URL? = nil,
@@ -31,7 +32,7 @@ class TrackRepository: TrackRepositoryProtocol {
         timeLastPlayed: Date = Date(),
         timesPlayed: Int32 = 0,) -> Track {
             let track = Track(context: context)
-            track.id = id
+            track.id = UUID()
             track.name = name
             track.duration = duration
             track.fileURL = fileURL
@@ -47,33 +48,17 @@ class TrackRepository: TrackRepositoryProtocol {
     }
     
     func fetchAll() throws -> [Track] {
-//        let request: NSFetchRequest<Track> = Track.fetchRequest()
-//        do {
-//            return try context.fetch(request)
-//        } catch {
-//            print("Failed to fetch tracks: \(error)")
-//            return []
-//        }
         try context.fetchAll(type: Track.self)
     }
     
-    func fetch(with id: UUID) throws -> Track? {
-//        let request: NSFetchRequest<Track> = Track.fetchRequest()
-//        request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
-//        do {
-//            return try context.fetch(request).first
-//        } catch {
-//            print("Failed to fetch tracks: \(error)")
-//            return nil
-//        }
-        try context.fetch(with: id, type: Track.self)
+    func fetch(id: UUID) throws -> Track? {
+        try context.fetch(id: id, type: Track.self)
     }
     
-    //MARK: - Bug придумать реализацию
+    //MARK: - Придумать реализацию
     func update(_ track: Track) {  }
     
-    //MARK: - Bug? Удалить связи перед улаением
-    func delete(with id: UUID) {
+    func delete(id: UUID) {
         let request: NSFetchRequest<Track> = Track.fetchRequest()
         request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
         
@@ -81,10 +66,9 @@ class TrackRepository: TrackRepositoryProtocol {
             return print("Delete Error, Track not found by id: \(id)")
         }
         
-        
-        //MARK: - BUG Удаление должно быть в отдельной сущности, удаляющей ещё и связи с Atist, ALbum, Genre
         context.delete(trackToDelete)
-//        stack.save()
+        
+        do { try context.save() } catch { print("Delete Error: \(error)") }
     }
 }
 

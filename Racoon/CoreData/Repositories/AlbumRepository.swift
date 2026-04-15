@@ -18,13 +18,26 @@ class AlbumRepository: AlbumRepositoryProtocol {
         self.context = coreDataStack.context
     }
 
-    func create(id: UUID = UUID(),
-                cover: URL? = nil,
-                name: String = "",
-                releaseDate: Date = Date()
+    //MARK: - Нужно доработать
+    func findOrCreate(name: String) -> Album {
+        let request: NSFetchRequest<Album> = Album.fetchRequest()
+        request.predicate = NSPredicate(format: "name == %@", name)
+        request.fetchLimit = 1
+        
+        if let existing = try? context.fetch(request).first {
+            return existing
+        }
+        
+        return create(name: name)
+    }
+    
+    func create(
+        cover: URL? = nil,
+        name: String = "",
+        releaseDate: Date = Date()
     ) -> Album {
         let album = Album(context: context)
-        album.id = id
+        album.id = UUID()
         album.cover = cover
         album.name = name
         album.releaseDate = releaseDate
@@ -36,8 +49,8 @@ class AlbumRepository: AlbumRepositoryProtocol {
         try context.fetchAll(type: Album.self)
     }
     
-    func fetch(with id: UUID) throws -> Album? {
-        try context.fetch(with: id, type: Album.self)
+    func fetch(id: UUID) throws -> Album? {
+        try context.fetch(id: id, type: Album.self)
     }
     
     func update(_ album: Album) {
@@ -45,7 +58,7 @@ class AlbumRepository: AlbumRepositoryProtocol {
     }
     
     //MARK: - Bug? Удалить связи перед улаением
-    func delete(with id: UUID) {
+    func delete(id: UUID) {
         let request: NSFetchRequest<Album> = Album.fetchRequest()
         request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
         

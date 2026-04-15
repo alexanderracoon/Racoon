@@ -18,11 +18,23 @@ class ArtistRepository: ArtistRepositoryProtocol {
         self.context = coreDataStack.context
     }
     
-    func create(id: UUID,
-                cover: URL?,
+    func findOrCreate(name: String) -> Artist {
+        let request: NSFetchRequest<Artist> = Artist.fetchRequest()
+        request.predicate = NSPredicate(format: "name == %@", name)
+        request.fetchLimit = 1
+        
+        if let existing = try? context.fetch(request).first {
+            return existing
+        }
+        
+        return create(name: name)
+    }
+    
+    //MARK: - Доработать
+    func create(cover: URL? = nil,
                 name: String) -> Artist {
         let artist = Artist(context: context)
-        artist.id = id
+        artist.id = UUID()
         artist.cover = cover
         artist.name = name
         
@@ -33,8 +45,8 @@ class ArtistRepository: ArtistRepositoryProtocol {
         try context.fetchAll(type: Artist.self)
     }
     
-    func fetch(with id: UUID) throws -> Artist? {
-        try context.fetch(with: id, type: Artist.self)
+    func fetch(id: UUID) throws -> Artist? {
+        try context.fetch(id: id, type: Artist.self)
     }
     
     func update(_ artist: Artist) {
@@ -42,7 +54,7 @@ class ArtistRepository: ArtistRepositoryProtocol {
     }
     
     //MARK: - Bug? Удалить связи перед улаением
-    func delete(with id: UUID) {
+    func delete(id: UUID) {
         let request: NSFetchRequest<Artist> = Artist.fetchRequest()
         request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
         

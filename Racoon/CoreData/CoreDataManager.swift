@@ -108,11 +108,11 @@ class CoreDataManager {
         
         if let artist = finalArtist {
             track.addToArtists(artist)
-            track.album?.addToArtist(artist)
+            track.album?.addToArtists(artist)
         }
         
         genresNames.forEach { name in
-            let genre = fetchOrCreateGenre(by: name)
+            let genre = fetchOrCreateGenre(with: name)
             track.addToGenres(genre)
         }
         
@@ -196,7 +196,7 @@ class CoreDataManager {
         save()
     }
     
-    private func fetchOrCreateGenre(by name: String) -> Genre {
+    private func fetchOrCreateGenre(with name: String) -> Genre {
         let request: NSFetchRequest<Genre> = Genre.fetchRequest()
         request.predicate = NSPredicate(format: "name == %@", name)
         request.fetchLimit = 1

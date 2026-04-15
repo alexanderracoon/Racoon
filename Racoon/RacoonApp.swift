@@ -15,7 +15,7 @@ struct RacoonApp: App {
     var body: some Scene {
         WindowGroup {
 //            InitialView()
-            //MARK: - Заменить на CoreDataManager
+            //MARK: - Заменить на CoreDataStack
 //                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
             HomeScreenView()
         }

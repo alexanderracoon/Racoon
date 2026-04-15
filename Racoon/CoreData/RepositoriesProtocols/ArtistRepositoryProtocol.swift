@@ -9,11 +9,29 @@ import Foundation
 
 protocol ArtistRepositoryProtocol {
     func create(
-        id: UUID,
         cover: URL?,
         name: String) -> Artist
+    //MARK: - Доработать в будущем
+    func findOrCreate(name: String) -> Artist
     func fetchAll() throws -> [Artist]
-    func fetch(with id: UUID) throws -> Artist?
+    func fetch(id: UUID) throws -> Artist?
     func update(_ artist: Artist)
-    func delete(with id: UUID)
+    func delete(id: UUID)
 }
+
+//protocol ArtistRepositoryProtocol: RepositoryProtocol where Entity == Artist {
+//    func create(
+//        cover: URL?,
+//        name: String) -> Artist
+//    func findOrCreate(name: String) -> Artist
+//}
+//
+//protocol RepositoryProtocol {
+//    associatedtype Entity
+//    
+//    func fetchAll() throws -> [Entity]
+//    func fetch(id: UUID) throws -> Entity?
+//    func update(_ entity: Entity)
+//    func delete(id: UUID)
+//}
+

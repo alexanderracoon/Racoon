@@ -10,7 +10,7 @@ import Foundation
 
 protocol TrackRepositoryProtocol {
     func create(
-        id: UUID,
+//        id: UUID,
         name: String,
         duration: Double,
         fileURL: URL?,
@@ -28,7 +28,9 @@ protocol TrackRepositoryProtocol {
 //        genresNames: [String],
     ) -> Track
     func fetchAll() throws -> [Track]
-    func fetch(with id: UUID) throws -> Track?
+    func fetch(id: UUID) throws -> Track?
     func update(_ track: Track)
-    func delete(with id: UUID)
+    func delete(id: UUID)
 }
+
+

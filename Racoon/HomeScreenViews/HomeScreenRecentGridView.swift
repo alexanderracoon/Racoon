@@ -22,7 +22,8 @@ struct HomeScreenRecentGridView: View {
                                 Image("SH2AlbumCover")
                                     .resizable()
                                     .scaledToFill()
-                                    .frame(width: 45, height: 45)
+                                    .frame(maxWidth: 45, maxHeight: 45)
+//                                    .frame(width: 45, height: 45)
                                     .clipped()
                                     .cornerRadius(5)
                                 
@@ -47,7 +48,8 @@ struct HomeScreenRecentGridView: View {
                                 Image("SH2AlbumCover")
                                     .resizable()
                                     .scaledToFill()
-                                    .frame(width: 45, height: 45)
+                                    .frame(maxWidth: 45, maxHeight: 45)
+//                                    .frame(width: 45, height: 45)
                                     .clipped()
                                     .cornerRadius(5)
                                 
@@ -76,4 +78,10 @@ struct HomeScreenRecentGridView: View {
         static let width: CGFloat = 45
         static let padding: CGFloat = 10
     }
+}
+
+#Preview {
+    HomeScreenRecentGridView(gridItems: ["Favorite", "History", "New Album", "New EP", "New Single", "New Podcast"])
+        .padding(10)
+        .background(.green.opacity(0.8))
 }
