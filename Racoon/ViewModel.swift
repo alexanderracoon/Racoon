@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 @Observable
 class ViewModel {
     let trackCreationService: TrackCreationService

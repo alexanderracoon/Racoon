@@ -16,7 +16,7 @@ struct HomeScreenRecentAlbumsView: View {
                 HStack(spacing: 10) {
                     ForEach(0..<5, id: \.self) { _ in
                         AlbumCardView()
-                            .aspectRatio(3/4, contentMode: .fit)
+                            .aspectRatio(3/4, contentMode: .fill)
                     }
                 }
             }

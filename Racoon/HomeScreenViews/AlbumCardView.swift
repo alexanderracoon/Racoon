@@ -20,11 +20,11 @@ struct AlbumCardView: View {
 //                .frame(width: 150, height: 150)
 //                .overlay(Text("❤️"), alignment: .center)
             Text(albumName)
-                
                 .lineLimit(1)
             Text(author)
                 .lineLimit(1)
                 .foregroundStyle(.grayText)
         }
+        .aspectRatio(4/3, contentMode: .fill)
     }
 }

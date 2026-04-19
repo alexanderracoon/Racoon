@@ -10,14 +10,18 @@ import CoreData
 
 @main
 struct RacoonApp: App {
-    let persistenceController = PersistenceController.shared
-
+//    let persistenceController = PersistenceController.shared
+//    @StateObject var viewModel = ViewModel()
+    @State private var paybackViewModel = PaybackViewModel()
+    
     var body: some Scene {
         WindowGroup {
-//            InitialView()
-            //MARK: - Заменить на CoreDataStack
-//                 .environment(\.managedObjectContext, persistenceController.container.viewContext)
             HomeScreenView()
+                .environment(paybackViewModel)
+            
+            //MARK: - Заменить на CoreDataStack
+//.environment(\.managedObjectContext, persistenceController.container.viewContext)
+            
         }
     }
 }

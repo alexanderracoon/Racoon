@@ -21,5 +21,6 @@ struct ArtistCardView: View {
                 .clipShape(Circle())
             Text(artistName)
         }
+        .aspectRatio(7/6, contentMode: .fill)
     }
 }

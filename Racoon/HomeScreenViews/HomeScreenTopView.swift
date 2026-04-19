@@ -42,6 +42,7 @@ struct HomeScreenTopView: View {
                     .cornerRadius(15)
                 
             }
+            Spacer()
         }
         .foregroundColor(.black)
         .padding(.leading, 10)
