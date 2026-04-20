@@ -13,11 +13,14 @@ struct RacoonApp: App {
 //    let persistenceController = PersistenceController.shared
 //    @StateObject var viewModel = ViewModel()
     @State private var paybackViewModel = PaybackViewModel()
+    private var viewModel = ViewModel()
     
     var body: some Scene {
         WindowGroup {
             HomeScreenView()
+                .environment(viewModel)
                 .environment(paybackViewModel)
+        
             
             //MARK: - Заменить на CoreDataStack
 //.environment(\.managedObjectContext, persistenceController.container.viewContext)

@@ -29,7 +29,7 @@ class TrackCreationService {
     }
     
     func createTrack(
-        name: String,
+        title: String,
         duration: Double,
         fileURL: URL? = nil,
         cover: URL? = nil,
@@ -39,7 +39,7 @@ class TrackCreationService {
         timeAdded: Date,
         timeLastPlayed: Date,
         timesPlayed: Int32,
-        albumName: String,
+        albumTitle: String,
         artistName: String,
         genreName: String
 //        albumCover: URL?,
@@ -49,7 +49,7 @@ class TrackCreationService {
 //    -> Track
     {
         let track = trackRepository.create(
-            name: name,
+            title: title,
             duration: duration,
             fileURL: fileURL,
             cover: cover,
@@ -61,7 +61,7 @@ class TrackCreationService {
             timesPlayed: timesPlayed
         )
         let album = albumRepository.findOrCreate(
-            name: albumName,
+            title: albumTitle,
 //            cover: albumCover,
 //            releaseDate: albumReleaseDate
         )

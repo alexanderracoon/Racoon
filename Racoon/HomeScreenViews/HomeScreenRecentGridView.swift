@@ -94,14 +94,14 @@ struct HomeScreenRecentGridView: View {
 }
 
 struct FavoriteView : View {
-     var viewModel = ViewModel()
+    @Environment(ViewModel.self) private var viewModel: ViewModel
     var body: some View {
         Button ("Add Track") {
-            viewModel.createTrack(name: "New Track", duration: 100, audioFormat: .mp3, isDownloaded: true, isFavourite: true, timeAdded: Date(), timeLastPlayed: Date(), timesPlayed: 10, albumName: "New Album", artistName: "New Artist", genreName: "New Genre")
+            viewModel.createTrack(title: "New Track", duration: 100, audioFormat: .mp3, isDownloaded: true, isFavourite: true, timeAdded: Date(), timeLastPlayed: Date(), timesPlayed: 10, albumName: "New Album", artistName: "New Artist", genreName: "New Genre")
         }
         
         List(viewModel.tracks) { track in
-            Text(track.name ?? "Default Track Name")
+            Text(track.title ?? "Default Track Title")
         }
         NavigationLink(destination: EmptyView()) {
             Text("Empty")

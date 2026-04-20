@@ -53,7 +53,7 @@ class CoreDataManager {
     @discardableResult
     func createTrack(
         id: UUID = UUID(),
-        name: String,
+        title: String,
         duration: Double,
         fileURL: URL?,
         cover: URL? = nil,
@@ -64,7 +64,7 @@ class CoreDataManager {
         timeLastPlayed: Date? = nil,
         timesPlayed: Int32 = 0,
         
-        albumName: String? = nil,
+        albumTitle: String? = nil,
         album: Album? = nil,
         artistName: String? = nil,
         artist: Artist? = nil,
@@ -73,7 +73,7 @@ class CoreDataManager {
     ) -> Track {
         let track = Track(context: context)
         track.id = id
-        track.name = name
+        track.title = title
         track.duration = duration
         track.fileURL = fileURL
         track.cover = cover
@@ -87,9 +87,9 @@ class CoreDataManager {
         // MARK: Attach album to track
         if let album {
             track.album = album
-        } else if let albumName{
+        } else if let albumTitle{
             let album = Album(context: context)
-            album.name = albumName
+            album.title = albumTitle
             album.id = UUID()
             track.album = album
         }
@@ -141,7 +141,7 @@ class CoreDataManager {
         
         //Меняем значения в oldTrack на новые из newTrack, но id оставляем старый
 //        oldTrack.id = newTrack.id
-        oldTrack.name = newTrack.name
+        oldTrack.title = newTrack.title
         oldTrack.duration = newTrack.duration
         oldTrack.fileURL = newTrack.fileURL
         oldTrack.cover = newTrack.cover
@@ -153,23 +153,24 @@ class CoreDataManager {
         oldTrack.timesPlayed = newTrack.timesPlayed
         oldTrack.album = newTrack.album
         
-//        if let artists = oldTrack.artists {
-//            oldTrack.removeFromArtists(artists)
+//        if let artists_ = oldTrack.artists_ {
+//            oldTrack.removeFromArtists(artists_)
 //        }
-//        oldTrack.addToArtists(newTrack.artists)
-//        oldTrack.artists = newTrack.artists
+//        oldTrack.addToArtists(newTrack.artists_)
+//        oldTrack.artists_ = newTrack.artists_
       
         //MARK: - Возможно баг, проверить в базе данных
-        var artists = oldTrack.artistsSet
+        //MARK: - Проверить дважды
+        var artists = oldTrack.artists
         artists.removeAll()
         // Вычисляемое свойство, нужно прямо установить пустой Set через сетер
-        oldTrack.artistsSet = artists
-        newTrack.artistsSet.forEach { oldTrack.addToArtists($0) }
+        oldTrack.artists = artists
+        newTrack.artists.forEach { oldTrack.addToArtists($0) }
         
-        var genres = oldTrack.genresSet
+        var genres = oldTrack.genres
         genres.removeAll()
-        oldTrack.genresSet = genres
-        newTrack.genresSet.forEach { oldTrack.addToGenres($0) }
+        oldTrack.genres = genres
+        newTrack.genres.forEach { oldTrack.addToGenres($0) }
 //        oldTrack.genres = newTrack.genres
     
         save()

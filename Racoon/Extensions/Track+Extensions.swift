@@ -12,27 +12,21 @@ extension Track {
         get {
             AudioFormat(rawValue: self.audioFormat ?? AudioFormat.mp3.rawValue) ?? .mp3
         }
-        set {
-            self.audioFormat = newValue.rawValue
-        }
+        set { self.audioFormat = newValue.rawValue }
     }
     
-    var artistsSet: Set<Artist> {
-        get {            
-            (artists as? Set<Artist>) ?? []
-        }
-        set {
-            artists = newValue as NSSet
-        }
+    var artists: Set<Artist> {
+        get { (artists_ as? Set<Artist>) ?? [] }
+        set { artists_ = newValue as NSSet }
     }
     
-    var genresSet: Set<Genre> {
-        get {
-            (genres as? Set<Genre>) ?? []
-        }
-        set {
-            genres = newValue as NSSet
-        }
+    var genres: Set<Genre> {
+        get { (genres_ as? Set<Genre>) ?? [] }
+        set { genres_ = newValue as NSSet }
     }
+    
+    func addToGenres(_ value: Genre) { self.addToGenres_(value) }
+    
+    func addToArtists(_ value: Artist) { self.addToArtists_(value) }
 }
 

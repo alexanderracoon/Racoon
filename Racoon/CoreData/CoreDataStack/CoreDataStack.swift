@@ -39,8 +39,19 @@ final class CoreDataStack: CoreDataStackProtocol {
         guard context.hasChanges else { return }
         do {
             try context.save()
-        } catch {
+        }
+        catch let error as NSError {
             print("CoreData saveContext error ", error.localizedDescription)
+            print("❌ Save error: \(error)")
+            
+            if let errors = error.userInfo[NSDetailedErrorsKey] as? [NSError] {
+                for error in errors {
+                    print("----")
+                    print("code:", error.code)
+                    print("description:", error.localizedDescription)
+                    print("userInfo:", error.userInfo)
+                }
+            }
         }
     }
 }

@@ -36,10 +36,11 @@ class ViewModel {
             artistRepository: artistRepository,
             genreRepository: genreRepository
         )
+        loadTracks()
     }
     
     func createTrack(
-        name: String,
+        title: String,
         duration: Double,
         audioFormat: AudioFormat,
         isDownloaded: Bool,
@@ -52,7 +53,7 @@ class ViewModel {
         genreName: String
     ) {
         trackCreationService.createTrack(
-            name: name,
+            title: title,
             duration: duration,
             audioFormat: audioFormat,
             isDownloaded: isDownloaded,
@@ -60,9 +61,10 @@ class ViewModel {
             timeAdded: timeAdded,
             timeLastPlayed: timeLastPlayed,
             timesPlayed: timesPlayed,
-            albumName: albumName,
+            albumTitle: albumName,
             artistName: artistName,
             genreName: genreName)
+        loadData()
     }
     
     //MARK: - Read

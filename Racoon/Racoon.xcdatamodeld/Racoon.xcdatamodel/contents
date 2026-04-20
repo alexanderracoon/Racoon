@@ -3,37 +3,37 @@
     <entity name="Album" representedClassName="Album" syncable="YES" codeGenerationType="class">
         <attribute name="cover" optional="YES" attributeType="URI"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
-        <attribute name="name" attributeType="String"/>
         <attribute name="releaseDate" attributeType="Date" usesScalarValueType="NO"/>
-        <relationship name="artists" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Artist" inverseName="albums" inverseEntity="Artist"/>
-        <relationship name="tracks" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Track" inverseName="album" inverseEntity="Track"/>
+        <attribute name="title" attributeType="String"/>
+        <relationship name="artists_" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Artist" inverseName="albums_" inverseEntity="Artist"/>
+        <relationship name="tracks_" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="Track" inverseName="album" inverseEntity="Track"/>
     </entity>
     <entity name="Artist" representedClassName="Artist" syncable="YES" codeGenerationType="class">
         <attribute name="cover" optional="YES" attributeType="URI"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" attributeType="String"/>
-        <relationship name="albums" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Album" inverseName="artists" inverseEntity="Album"/>
-        <relationship name="tracks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Track" inverseName="artists" inverseEntity="Track"/>
+        <relationship name="albums_" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Album" inverseName="artists_" inverseEntity="Album"/>
+        <relationship name="tracks_" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Track" inverseName="artists_" inverseEntity="Track"/>
     </entity>
     <entity name="Genre" representedClassName="Genre" syncable="YES" codeGenerationType="class">
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="name" attributeType="String"/>
-        <relationship name="tracks" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Track" inverseName="genres" inverseEntity="Track"/>
+        <relationship name="tracks_" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Track" inverseName="genres_" inverseEntity="Track"/>
     </entity>
     <entity name="Track" representedClassName="Track" syncable="YES" codeGenerationType="class">
         <attribute name="audioFormat" attributeType="String"/>
         <attribute name="cover" optional="YES" attributeType="URI"/>
-        <attribute name="duration" attributeType="Double" minValueString="0" maxValueString="1" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="duration" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
         <attribute name="fileURL" optional="YES" attributeType="URI"/>
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="isDownloaded" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isFavourite" attributeType="Boolean" usesScalarValueType="YES"/>
-        <attribute name="name" attributeType="String"/>
         <attribute name="timeAdded" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="timeLastPlayed" attributeType="Date" usesScalarValueType="NO"/>
-        <attribute name="timesPlayed" attributeType="Integer 32" minValueString="0" maxValueString="0" defaultValueString="0" usesScalarValueType="YES"/>
-        <relationship name="album" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Album" inverseName="tracks" inverseEntity="Album"/>
-        <relationship name="artists" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Artist" inverseName="tracks" inverseEntity="Artist"/>
-        <relationship name="genres" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Genre" inverseName="tracks" inverseEntity="Genre"/>
+        <attribute name="timesPlayed" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="title" attributeType="String"/>
+        <relationship name="album" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Album" inverseName="tracks_" inverseEntity="Album"/>
+        <relationship name="artists_" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Artist" inverseName="tracks_" inverseEntity="Artist"/>
+        <relationship name="genres_" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Genre" inverseName="tracks_" inverseEntity="Genre"/>
     </entity>
 </model>

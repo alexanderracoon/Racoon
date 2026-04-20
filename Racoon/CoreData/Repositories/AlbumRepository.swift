@@ -19,27 +19,27 @@ class AlbumRepository: AlbumRepositoryProtocol {
     }
 
     //MARK: - Нужно доработать
-    func findOrCreate(name: String) -> Album {
+    func findOrCreate(title: String) -> Album {
         let request: NSFetchRequest<Album> = Album.fetchRequest()
-        request.predicate = NSPredicate(format: "name == %@", name)
+        request.predicate = NSPredicate(format: "title == %@", title)
         request.fetchLimit = 1
         
         if let existing = try? context.fetch(request).first {
             return existing
         }
         
-        return create(name: name)
+        return create(title: title)
     }
     
     func create(
         cover: URL? = nil,
-        name: String = "",
+        title: String = "",
         releaseDate: Date = Date()
     ) -> Album {
         let album = Album(context: context)
         album.id = UUID()
         album.cover = cover
-        album.name = name
+        album.title = title
         album.releaseDate = releaseDate
         
         return album

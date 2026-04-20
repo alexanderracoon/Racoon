@@ -10,10 +10,10 @@ import Foundation
 protocol AlbumRepositoryProtocol {
     func create(
         cover: URL?,
-        name: String,
+        title: String,
         releaseDate: Date) -> Album
     //MARK: - Доработать в будущем
-    func findOrCreate(name: String) -> Album
+    func findOrCreate(title: String) -> Album
     func fetchAll() throws -> [Album]
     func fetch(id: UUID) throws -> Album?
     func update(_ album: Album)

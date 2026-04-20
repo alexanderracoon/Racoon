@@ -11,7 +11,7 @@ import Foundation
 protocol TrackRepositoryProtocol {
     func create(
 //        id: UUID,
-        name: String,
+        title: String,
         duration: Double,
         fileURL: URL?,
         cover: URL?,
