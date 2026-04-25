@@ -72,4 +72,9 @@ class GenreRepository: GenreRepositoryProtocol {
         
         context.delete(genreToDelete)
     }
+    
+    func delete(_ genre: Genre) {
+        context.delete(genre)
+        do { try context.save() } catch { print("Delete Error: \(error)") }
+    }
 }

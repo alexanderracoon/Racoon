@@ -40,7 +40,9 @@ class TrackCreationService {
         timeLastPlayed: Date,
         timesPlayed: Int32,
         albumTitle: String,
+        album: Album?,
         artistName: String,
+        artist: Artist?,
         genreName: String
 //        albumCover: URL?,
 //        albumReleaseDate: Date,
@@ -60,27 +62,50 @@ class TrackCreationService {
             timeLastPlayed: timeLastPlayed,
             timesPlayed: timesPlayed
         )
-        let album = albumRepository.findOrCreate(
-            title: albumTitle,
-//            cover: albumCover,
-//            releaseDate: albumReleaseDate
-        )
-        let artist = artistRepository.findOrCreate(
-//            cover: artistCover,
-            name: artistName
-        )
+        var myAlbum: Album
+        if let album = album {
+            myAlbum = album
+        } else {
+            //MARK: - Такого быть не должно
+            print("TrackCreationService: Не найден альбом с таким названием: \(albumTitle). Создаём новый")
+            myAlbum = albumRepository.findOrCreate(title: albumTitle)
+        }
+//        let albumFromName = albumRepository.findOrCreate(
+//            title: albumTitle,
+//            //            cover: albumCover,
+//            //            releaseDate: albumReleaseDate
+//        )
+        var myArtist: Artist
+        if let artist = artist {
+            myArtist = artist
+        } else {
+            print("TrackCreationService: Не найден артист с таким именем: \(artistName). Создаём нового")
+            myArtist = artistRepository.findOrCreate(name: artistName)
+        }
+//        let artist = artistRepository.findOrCreate(
+////            cover: artistCover,
+//            name: artistName
+//        )
         let genre = genreRepository.findOrCreate(name: genreName)
         
-        createRelationships(track: track, album: album, artist: artist, genre: genre)
+        createRelationships(track: track, album: myAlbum, artist: myArtist, genre: genre)
         
         stack.save()
 //        return track
     }
     
-    private func createRelationships(track: Track, album: Album, artist: Artist, genre: Genre) {
-        artist.addToAlbums(album)
-        track.addToArtists(artist)
-        track.album = album
-        track.addToGenres(genre)
+    private func createRelationships(track: Track, album: Album?, artist: Artist?, genre: Genre?) {
+        if let album = album {
+            track.album = album
+        }
+        if let artist = artist {
+            track.addToArtists(artist)
+        }
+        if let album = album, let artist = artist {
+            artist.addToAlbums(album)
+        }
+        if let genre = genre {
+            track.addToGenres(genre)
+        }
     }
 }

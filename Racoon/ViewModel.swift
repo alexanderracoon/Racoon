@@ -36,7 +36,8 @@ class ViewModel {
             artistRepository: artistRepository,
             genreRepository: genreRepository
         )
-        loadTracks()
+//        loadTracks()
+        loadData()
     }
     
     func createTrack(
@@ -48,8 +49,10 @@ class ViewModel {
         timeAdded: Date,
         timeLastPlayed: Date,
         timesPlayed: Int32,
-        albumName: String,
-        artistName: String,
+        albumName: String = "",
+        album: Album? = nil,
+        artistName: String = "",
+        artist: Artist? = nil,
         genreName: String
     ) {
         trackCreationService.createTrack(
@@ -62,7 +65,9 @@ class ViewModel {
             timeLastPlayed: timeLastPlayed,
             timesPlayed: timesPlayed,
             albumTitle: albumName,
+            album: album,
             artistName: artistName,
+            artist: artist,
             genreName: genreName)
         loadData()
     }
@@ -117,18 +122,47 @@ class ViewModel {
     //MARK: - Delete
     func deleteTrack(id: UUID) {
         trackRepository.delete(id: id)
+        loadData()
+    }
+    
+    func deleteTrack(_ track: Track) {
+        trackRepository.delete(track)
+        loadData()
+    }
+    
+    func deleteTrack(indexSet: IndexSet) {
+        for index in indexSet {
+            let track = tracks[index]
+            deleteTrack(track)
+//            deleteTrack(track: track)
+//            guard let id = tracks[index].id else { continue }
+//            deleteTrack(id: id)
+        }
+//        loadData()
     }
     
     func deleteAlbum(id: UUID) {
         albumRepository.delete(id: id)
     }
     
+    func deleteAlbum(_ album: Album) {
+        albumRepository.delete(album)
+    }
+    
     func deleteArtist(id: UUID) {
         artistRepository.delete(id: id)
     }
     
+    func deleteArtist(_ artist: Artist) {
+        artistRepository.delete(artist)
+    }
+    
     func deleteGenre(id: UUID) {
         genreRepository.delete(id: id)
+    }
+    
+    func deleteGenre(_ genre: Genre) {
+        genreRepository.delete(genre)
     }
     
     

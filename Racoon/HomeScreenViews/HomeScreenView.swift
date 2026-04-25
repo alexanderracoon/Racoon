@@ -28,32 +28,21 @@ struct HomeScreenView: View {
             }
             .background(Color.black)
         }
+        .navigationTitle(Text("Home Screen"))
         .safeAreaInset(edge: .bottom) {
             PlaybackView()
         }
     }
 }
-//struct PlaybackView: View {
-//    var body: some View {
-//        VStack{
-//            ZStack{
-//                RoundedRectangle(cornerRadius: 10)
-//                    .foregroundStyle(.green)
-//                Text("Payback")
-//                    .foregroundStyle(Color.white)
-//            }
-//            RoundedRectangle(cornerRadius: 10)
-//                .foregroundStyle(.blue)
-//        }
-//        .aspectRatio(11/3, contentMode: .fit)
-//    }
-//}
-
 
 
 
 
 
 #Preview {
+    let viewModel = ViewModel()
+    let playbackManager = PlaybackManager()
     HomeScreenView()
+        .environment(viewModel)
+        .environment(playbackManager)
 }

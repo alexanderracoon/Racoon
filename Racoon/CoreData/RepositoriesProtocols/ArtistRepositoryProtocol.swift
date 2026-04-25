@@ -17,6 +17,7 @@ protocol ArtistRepositoryProtocol {
     func fetch(id: UUID) throws -> Artist?
     func update(_ artist: Artist)
     func delete(id: UUID)
+    func delete(_ artist: Artist)
 }
 
 //protocol ArtistRepositoryProtocol: RepositoryProtocol where Entity == Artist {

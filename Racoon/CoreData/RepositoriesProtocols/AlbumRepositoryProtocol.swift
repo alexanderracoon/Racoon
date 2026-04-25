@@ -18,4 +18,5 @@ protocol AlbumRepositoryProtocol {
     func fetch(id: UUID) throws -> Album?
     func update(_ album: Album)
     func delete(id: UUID)
+    func delete(_ album: Album)
 }

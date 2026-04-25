@@ -1,0 +1,134 @@
+//
+//  AddTrackView.swift
+//  Racoon
+//
+//  Created by Александр Переславцев on 20.04.2026.
+//
+
+import Foundation
+import SwiftUI
+
+struct AddTrackView: View {
+    @Environment(ViewModel.self) private var viewModel: ViewModel
+
+    struct TrackBlankForm {
+        var title: String = ""
+        var duration: String = ""
+        var audioFormat: AudioFormat = .mp3
+        var isDownloaded: Bool = true
+        var isFavourite: Bool = true
+        var timeAdded: Date = .now
+        var timeLastPlayed: Date = .now
+        var timesPlayed: String = ""
+        var albumName: String = ""
+        var album: Album?
+        var artist: Artist?
+        var artistName: String = ""
+        var genreName: String = ""
+    }
+    
+    @State private var form = TrackBlankForm()
+        
+    
+    var body: some View {
+        //        NavigationStack {
+        Form {
+            Section("Основное") {
+                TextField("Название", text: $form.title)
+                TextField("Длительность", text: $form.duration)
+                    .keyboardType(.decimalPad)
+                
+                Picker("Формат", selection: $form.audioFormat) {
+                    ForEach(AudioFormat.allCases, id: \.self) { format in
+                        Text(format.rawValue).tag(format)
+                    }
+                }
+                
+                
+                Toggle("Скачан", isOn: $form.isDownloaded)
+                Toggle("Избранное", isOn: $form.isFavourite)
+            }
+            
+            Section("Время") {
+                DatePicker("Дата добавления", selection: $form.timeAdded, displayedComponents: [.date, .hourAndMinute])
+                DatePicker("Последнее прослушивание", selection: $form.timeLastPlayed, displayedComponents: [.date, .hourAndMinute])
+                TextField("Сколько раз проиграно", text: $form.timesPlayed)
+                    .keyboardType(.numberPad)
+            }
+//            .listRowBackground(Color.mainGray)
+            
+            Section("Связи") {
+                Picker("Album", selection: $form.album) {
+                    Text("None").tag(nil as Album?)
+                    ForEach(viewModel.albums, id: \.objectID) { album in
+                        Text(album.title ?? "No title").tag(album)
+                    }
+                }
+                Picker("Artist", selection: $form.artist) {
+                    Text("None").tag(nil as Artist?)
+                    ForEach(viewModel.artists) { artist in
+                        Text(artist.name ?? "No name").tag(artist)
+                    }
+                }
+//                TextField("Альбом", text: $form.albumName)
+//                TextField("Исполнитель", text: $form.artistName)
+                TextField("Жанр", text: $form.genreName)
+            }
+            
+            Section {
+                Button("Создать сущность") {
+                    createTrack()
+                }
+            }
+        }
+        .scrollContentBackground(.hidden)
+//        .background(.mainGray)
+        .toolbar(){
+            Button("Создать сущность") {
+                createTrack()
+            }
+        }
+        .navigationTitle("Новый трек")
+//        }
+    }
+    
+    private func createTrack() {
+        viewModel.createTrack(title: form.title, duration: 100, audioFormat: form.audioFormat, isDownloaded: form.isDownloaded, isFavourite: form.isFavourite, timeAdded: form.timeAdded, timeLastPlayed: form.timeLastPlayed, timesPlayed: 0, albumName: "Album Test", album: form.album, artistName: "Artist Test", artist: form.artist, genreName: "Genre Test")
+    }
+    
+//    private func createTrack() {
+//           guard let duration = Double(form.duration),
+//                 let timesPlayed = Int32(form.timesPlayed),
+//                 !form.title.isEmpty,
+//                 !form.albumName.isEmpty,
+//                 !form.artistName.isEmpty,
+//                 !form.genreName.isEmpty
+//           else {
+//               print("Некорректные данные")
+//               return
+//           }
+//
+//           viewModel.createTrack(
+//               title: form.title,
+//               duration: duration,
+//               audioFormat: form.audioFormat,
+//               isDownloaded: form.isDownloaded,
+//               isFavourite: form.isFavourite,
+//               timeAdded: form.timeAdded,
+//               timeLastPlayed: form.timeLastPlayed,
+//               timesPlayed: timesPlayed,
+//               albumName: form.albumName,
+//               artistName: form.artistName,
+//               genreName: form.genreName
+//           )
+//       }
+}
+
+
+
+
+#Preview {
+    let viewModel = ViewModel()
+    AddTrackView()
+        .environment(viewModel)
+}

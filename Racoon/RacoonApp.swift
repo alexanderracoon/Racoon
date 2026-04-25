@@ -12,14 +12,15 @@ import CoreData
 struct RacoonApp: App {
 //    let persistenceController = PersistenceController.shared
 //    @StateObject var viewModel = ViewModel()
-    @State private var paybackViewModel = PaybackViewModel()
+//    @State private var paybackViewModel = PlaybackManager()
     private var viewModel = ViewModel()
+    private var playbackManager = PlaybackManager()
     
     var body: some Scene {
         WindowGroup {
             HomeScreenView()
                 .environment(viewModel)
-                .environment(paybackViewModel)
+                .environment(playbackManager)
         
             
             //MARK: - Заменить на CoreDataStack

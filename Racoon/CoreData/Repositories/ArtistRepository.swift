@@ -53,7 +53,7 @@ class ArtistRepository: ArtistRepositoryProtocol {
         
     }
     
-    //MARK: - Bug? Удалить связи перед улаением
+    //MARK: - Связи перед улаением сами удалятся из-за настроек модели
     func delete(id: UUID) {
         let request: NSFetchRequest<Artist> = Artist.fetchRequest()
         request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
@@ -63,5 +63,10 @@ class ArtistRepository: ArtistRepositoryProtocol {
         }
         
         context.delete(artistToDelete)
+    }
+    
+    func delete(_ artist: Artist) {
+        context.delete(artist)
+        do { try context.save() } catch { print("Delete Error: \(error)") }
     }
 }

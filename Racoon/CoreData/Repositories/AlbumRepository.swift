@@ -67,4 +67,9 @@ class AlbumRepository: AlbumRepositoryProtocol {
         }
         context.delete(albumToDelete)
     }
+    
+    func delete(_ album: Album) {
+        context.delete(album)
+        do { try context.save() } catch { print("Delete Error: \(error)") }
+    }
 }

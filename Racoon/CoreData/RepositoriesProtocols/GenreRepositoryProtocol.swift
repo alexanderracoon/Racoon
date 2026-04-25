@@ -15,4 +15,5 @@ protocol GenreRepositoryProtocol {
     func fetch(id: UUID) throws -> Genre?
     func update(_ genre: Genre)
     func delete(id: UUID)
+    func delete(_ genre: Genre)
 }

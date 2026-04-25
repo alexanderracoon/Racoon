@@ -31,6 +31,7 @@ protocol TrackRepositoryProtocol {
     func fetch(id: UUID) throws -> Track?
     func update(_ track: Track)
     func delete(id: UUID)
+    func delete(_ track: Track)
 }
 
 

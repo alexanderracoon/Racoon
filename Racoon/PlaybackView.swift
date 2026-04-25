@@ -8,18 +8,24 @@
 import SwiftUI
 
 struct PlaybackView: View {
+    @Environment(PlaybackManager.self) private var playbackManager : PlaybackManager
+
     var body: some View {
         VStack(spacing: 0){
             ZStack(alignment: .bottom){
-                TrackViewInList {
-                    Button {} label: {
+                TrackViewInList(title: playbackManager.playingTitle, artist: playbackManager.playingArtist) {
+                    Button {
+                        playbackManager.playPause()
+                    } label: {
                         Image(systemName: "play.fill")
                             .scaledToFill()
                             .font(.system(size: 30))
                     }
                     .foregroundStyle(Color.white)
                 }
-                TrackProgressView()
+                .background(.black.opacity(0.95))
+                .clipShape(RoundedRectangle(cornerRadius: 10))
+                TrackProgressView(duration: playbackManager.duration, currentTime: playbackManager.currentTime)
             }
             BottomNavigationView()
 //                .aspectRatio(11/3, contentMode: .fit)
@@ -48,27 +54,12 @@ struct TrackProgressView: View {
                             )
                             .frame(width: geometry.size.width *
                                    ( scale <= 1 ? scale : 0.9 ) )
+                            .animation(.easeInOut(duration: 0.5), value: currentTime)
                     }
                     .frame(maxWidth: geometry.size.width, maxHeight: 5)
                 }
-    //        .frame(width: .infinity, height: 5)
             }
-//            .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
-//            .foregroundStyle(Color.white)
-//            .frame(maxWidth: .infinity, maxHeight: 5)
         }
-//            ZStack(alignment: .leading) {
-//                Capsule()
-////                RoundedRectangle(cornerRadius: 10)
-//                    .foregroundStyle(.gray)
-////                .opacity(0.1)
-//                Capsule()
-////                RoundedRectangle(cornerRadius: 10)
-//                    .foregroundStyle(.white)
-//                    .frame(width: 50)
-////                .opacity(0.3)
-//            }
-//        .frame(width: .infinity, height: 5)
             .frame(maxWidth: .infinity, maxHeight: 5)
         .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
     }
@@ -95,42 +86,6 @@ struct BottomNavigationView: View {
 //        .background()
         .background(LinearGradient(colors: [.black.opacity(0.9), .black.opacity(0.8)], startPoint: .bottom, endPoint: .top))
 //        .clipShape(RoundedRectangle(cornerRadius: 10))
-    }
-}
-
-struct TrackViewInList<ActionButtonsView>: View where ActionButtonsView: View {
-    @ViewBuilder var actionButtonsView: () -> ActionButtonsView
-    
-    init(actionButtonsView: @escaping () -> ActionButtonsView = { EmptyView() } ) {
-        self.actionButtonsView = actionButtonsView
-    }
-    
-    var body: some View {
-        HStack {
-            Image(.sh2AlbumCover)
-                .resizable()
-//                .frame(width: 45, height: 45)
-                .scaledToFill()
-                .frame(maxWidth: 45, maxHeight: 45)
-                .clipped()
-                .cornerRadius(5)
-                .padding(10)
-            VStack(alignment: .leading) {
-                Text("Title")
-                    .font(.system(size: 20))
-                Text("Artist")
-                    .font(.system(size: 20))
-//                track.title
-//                track.artistsNames
-            }
-            
-            .foregroundStyle(.white)
-            Spacer()
-            actionButtonsView()
-                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 15))
-        }
-        .background(.black.opacity(0.95))
-        .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }
 

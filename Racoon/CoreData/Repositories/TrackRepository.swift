@@ -58,6 +58,7 @@ class TrackRepository: TrackRepositoryProtocol {
     //MARK: - Придумать реализацию
     func update(_ track: Track) {  }
     
+    //MARK: - Не забыть удалить файл из FileManager перед удалением в CoreData
     func delete(id: UUID) {
         let request: NSFetchRequest<Track> = Track.fetchRequest()
         request.predicate = NSPredicate(format: "id == %@", id as CVarArg)
@@ -68,6 +69,12 @@ class TrackRepository: TrackRepositoryProtocol {
         
         context.delete(trackToDelete)
         
+        do { try context.save() } catch { print("Delete Error: \(error)") }
+    }
+    
+    //MARK: - Не забыть удалить файл из FileManager перед удалением в CoreData
+    func delete(_ track: Track) {
+        context.delete(track)
         do { try context.save() } catch { print("Delete Error: \(error)") }
     }
 }
