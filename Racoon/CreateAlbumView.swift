@@ -40,8 +40,9 @@ struct CreateAlbumView: View {
 struct ImageDropView: View {
     @State private var imageURL: URL?
     @State private var isTargeted = false
-    
+
     var body: some View {
+        
         VStack {
             if let url = imageURL,
                let data = try? Data(contentsOf: url),
@@ -74,21 +75,8 @@ struct ImageDropView: View {
     }
     
     func saveImage(data: Data) -> URL? {
-        let folder = FileManager.default
-            .urls(for: .documentDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent("images")
-        
-        try? FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
-        
-        let fileURL = folder.appendingPathComponent("\(UUID().uuidString).jpg")
-        
-        do {
-            try data.write(to: fileURL)
-            return fileURL
-        } catch {
-            print("Save error:", error)
-            return nil
-        }
+        let localStorage = LocalMediaStorage()
+        return localStorage.saveImage(data: data)
     }
 }
 

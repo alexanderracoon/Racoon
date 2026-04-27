@@ -20,6 +20,7 @@ struct AddTrackView: View {
         var timeAdded: Date = .now
         var timeLastPlayed: Date = .now
         var timesPlayed: String = ""
+        var trackData: Data = Data()
         var albumName: String = ""
         var album: Album?
         var artist: Artist?
@@ -93,7 +94,7 @@ struct AddTrackView: View {
     }
     
     private func createTrack() {
-        viewModel.createTrack(title: form.title, duration: 100, audioFormat: form.audioFormat, isDownloaded: form.isDownloaded, isFavourite: form.isFavourite, timeAdded: form.timeAdded, timeLastPlayed: form.timeLastPlayed, timesPlayed: 0, albumName: "Album Test", album: form.album, artistName: "Artist Test", artist: form.artist, genreName: "Genre Test")
+        viewModel.createTrack(title: form.title, duration: 100, audioFormat: form.audioFormat, isDownloaded: form.isDownloaded, isFavourite: form.isFavourite, timeAdded: form.timeAdded, timeLastPlayed: form.timeLastPlayed, timesPlayed: 0, trackData: form.trackData, albumName: "Album Test", album: form.album, artistName: "Artist Test", artist: form.artist, genreName: "Genre Test")
     }
     
 //    private func createTrack() {

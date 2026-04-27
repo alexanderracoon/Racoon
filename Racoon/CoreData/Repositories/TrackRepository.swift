@@ -20,7 +20,7 @@ class TrackRepository: TrackRepositoryProtocol {
     
     
     func create(
-//        id: UUID = UUID(),
+        id: UUID,
         title: String = "",
         duration: Double = 0,
         fileURL: URL? = nil,
@@ -32,7 +32,7 @@ class TrackRepository: TrackRepositoryProtocol {
         timeLastPlayed: Date = Date(),
         timesPlayed: Int32 = 0,) -> Track {
             let track = Track(context: context)
-            track.id = UUID()
+            track.id = id
             track.title = title
             track.duration = duration
             track.fileURL = fileURL

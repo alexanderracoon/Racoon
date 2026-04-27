@@ -62,9 +62,9 @@
             filePath = "Racoon/ViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "58"
-            endingLineNumber = "58"
-            landmarkName = "createTrack(title:duration:audioFormat:isDownloaded:isFavourite:timeAdded:timeLastPlayed:timesPlayed:albumName:album:artistName:artist:genreName:)"
+            startingLineNumber = "64"
+            endingLineNumber = "64"
+            landmarkName = "createTrack(title:duration:audioFormat:isDownloaded:isFavourite:timeAdded:timeLastPlayed:timesPlayed:trackData:albumName:album:artistName:artist:genreName:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -78,9 +78,9 @@
             filePath = "Racoon/ViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "43"
-            endingLineNumber = "43"
-            landmarkName = "createTrack(title:duration:audioFormat:isDownloaded:isFavourite:timeAdded:timeLastPlayed:timesPlayed:albumName:album:artistName:artist:genreName:)"
+            startingLineNumber = "47"
+            endingLineNumber = "47"
+            landmarkName = "createTrack(title:duration:audioFormat:isDownloaded:isFavourite:timeAdded:timeLastPlayed:timesPlayed:trackData:albumName:album:artistName:artist:genreName:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -94,9 +94,9 @@
             filePath = "Racoon/CoreData/TrackCreationService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "31"
-            endingLineNumber = "31"
-            landmarkName = "createTrack(title:duration:fileURL:cover:audioFormat:isDownloaded:isFavourite:timeAdded:timeLastPlayed:timesPlayed:albumTitle:album:artistName:artist:genreName:)"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
+            landmarkName = "createTrack(title:duration:fileURL:cover:audioFormat:isDownloaded:isFavourite:timeAdded:timeLastPlayed:timesPlayed:trackData:albumTitle:album:artistName:artist:genreName:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -110,9 +110,9 @@
             filePath = "Racoon/CoreData/TrackCreationService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "53"
-            endingLineNumber = "53"
-            landmarkName = "createTrack(title:duration:fileURL:cover:audioFormat:isDownloaded:isFavourite:timeAdded:timeLastPlayed:timesPlayed:albumTitle:album:artistName:artist:genreName:)"
+            startingLineNumber = "63"
+            endingLineNumber = "63"
+            landmarkName = "createTrack(title:duration:fileURL:cover:audioFormat:isDownloaded:isFavourite:timeAdded:timeLastPlayed:timesPlayed:trackData:albumTitle:album:artistName:artist:genreName:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

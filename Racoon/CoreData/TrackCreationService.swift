@@ -7,6 +7,7 @@
 
 import Foundation
 
+
 class TrackCreationService {
     private let stack: CoreDataStackProtocol
     private let trackRepository: TrackRepositoryProtocol
@@ -14,18 +15,23 @@ class TrackCreationService {
     private let artistRepository: ArtistRepositoryProtocol
     private let genreRepository: GenreRepositoryProtocol
     
+    private let mediaStorage: LocalMediaStorage
+    
     init(
         stack: CoreDataStackProtocol,
         trackRepository: TrackRepositoryProtocol,
         albumRepository: AlbumRepositoryProtocol,
         artistRepository: ArtistRepositoryProtocol,
-        genreRepository: GenreRepositoryProtocol
+        genreRepository: GenreRepositoryProtocol,
+        //MARK: - Protocol? 
+        mediaStorage: LocalMediaStorage
     ) {
         self.stack = stack
         self.trackRepository = trackRepository
         self.albumRepository = albumRepository
         self.artistRepository = artistRepository
         self.genreRepository = genreRepository
+        self.mediaStorage = mediaStorage
     }
     
     func createTrack(
@@ -39,6 +45,7 @@ class TrackCreationService {
         timeAdded: Date,
         timeLastPlayed: Date,
         timesPlayed: Int32,
+        trackData: Data,
         albumTitle: String,
         album: Album?,
         artistName: String,
@@ -47,13 +54,17 @@ class TrackCreationService {
 //        albumCover: URL?,
 //        albumReleaseDate: Date,
 //        artistCover: URL?,
-    )
+    ) throws
 //    -> Track
     {
+        let trackID = UUID()
+        let trackPath: URL = mediaStorage.saveAudio(data: trackData, trackID: trackID, format: audioFormat)
+        
         let track = trackRepository.create(
+            id : trackID,
             title: title,
             duration: duration,
-            fileURL: fileURL,
+            fileURL: trackPath,
             cover: cover,
             audioFormat: audioFormat,
             isDownloaded: isDownloaded,
@@ -82,15 +93,18 @@ class TrackCreationService {
             print("TrackCreationService: Не найден артист с таким именем: \(artistName). Создаём нового")
             myArtist = artistRepository.findOrCreate(name: artistName)
         }
-//        let artist = artistRepository.findOrCreate(
-////            cover: artistCover,
-//            name: artistName
-//        )
+        
         let genre = genreRepository.findOrCreate(name: genreName)
         
         createRelationships(track: track, album: myAlbum, artist: myArtist, genre: genre)
         
-        stack.save()
+        do {
+            try stack.save()
+        } catch {
+            mediaStorage.deleteFile(at: trackPath)
+            stack.rollback()
+            throw error
+        }
 //        return track
     }
     

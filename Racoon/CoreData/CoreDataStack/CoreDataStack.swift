@@ -35,23 +35,27 @@ final class CoreDataStack: CoreDataStackProtocol {
     }
     
     //MARK: - Изменить обработку ошибок
-    func save () {
+    func save() throws {
         guard context.hasChanges else { return }
-        do {
+//        do {
             try context.save()
-        }
-        catch let error as NSError {
-            print("CoreData saveContext error ", error.localizedDescription)
-            print("❌ Save error: \(error)")
-            
-            if let errors = error.userInfo[NSDetailedErrorsKey] as? [NSError] {
-                for error in errors {
-                    print("----")
-                    print("code:", error.code)
-                    print("description:", error.localizedDescription)
-                    print("userInfo:", error.userInfo)
-                }
-            }
-        }
+//        }
+//        catch let error as NSError {
+//            print("CoreData saveContext error ", error.localizedDescription)
+//            print("❌ Save error: \(error)")
+//            
+//            if let errors = error.userInfo[NSDetailedErrorsKey] as? [NSError] {
+//                for error in errors {
+//                    print("----")
+//                    print("code:", error.code)
+//                    print("description:", error.localizedDescription)
+//                    print("userInfo:", error.userInfo)
+//                }
+//            }
+//        }
+    }
+    
+    func rollback() {
+        context.rollback()
     }
 }

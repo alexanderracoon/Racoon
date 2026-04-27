@@ -15,6 +15,8 @@ class ViewModel {
     let albumRepository: AlbumRepositoryProtocol
     let artistRepository: ArtistRepositoryProtocol
     let genreRepository: GenreRepositoryProtocol
+    //MARK: - Protocol?
+    let mediaStorage: LocalMediaStorage
     
     var tracks: [Track] = []
     var albums: [Album] = []
@@ -29,12 +31,14 @@ class ViewModel {
         self.albumRepository = AlbumRepository(coreDataStack: stack)
         self.artistRepository = ArtistRepository(coreDataStack: stack)
         self.genreRepository = GenreRepository(coreDataStack: stack)
+        self.mediaStorage = LocalMediaStorage()
         self.trackCreationService = TrackCreationService(
             stack: stack,
             trackRepository: trackRepository,
             albumRepository: albumRepository,
             artistRepository: artistRepository,
-            genreRepository: genreRepository
+            genreRepository: genreRepository,
+            mediaStorage: mediaStorage
         )
 //        loadTracks()
         loadData()
@@ -49,27 +53,43 @@ class ViewModel {
         timeAdded: Date,
         timeLastPlayed: Date,
         timesPlayed: Int32,
+        trackData: Data,
         albumName: String = "",
         album: Album? = nil,
         artistName: String = "",
         artist: Artist? = nil,
         genreName: String
     ) {
-        trackCreationService.createTrack(
-            title: title,
-            duration: duration,
-            audioFormat: audioFormat,
-            isDownloaded: isDownloaded,
-            isFavourite: isFavourite,
-            timeAdded: timeAdded,
-            timeLastPlayed: timeLastPlayed,
-            timesPlayed: timesPlayed,
-            albumTitle: albumName,
-            album: album,
-            artistName: artistName,
-            artist: artist,
-            genreName: genreName)
-        loadData()
+        do {
+            try trackCreationService.createTrack(
+                title: title,
+                duration: duration,
+                audioFormat: audioFormat,
+                isDownloaded: isDownloaded,
+                isFavourite: isFavourite,
+                timeAdded: timeAdded,
+                timeLastPlayed: timeLastPlayed,
+                timesPlayed: timesPlayed,
+                trackData: trackData,
+                albumTitle: albumName,
+                album: album,
+                artistName: artistName,
+                artist: artist,
+                genreName: genreName)
+            loadData()
+        } catch let error as NSError {
+            print("CoreData saveContext error ", error.localizedDescription)
+            print("Save error: \(error)")
+            
+//            if let errors = error.userInfo[NSDetailedErrorsKey] as? [NSError] {
+//                for error in errors {
+//                    print("----")
+//                    print("code:", error.code)
+//                    print("description:", error.localizedDescription)
+//                    print("userInfo:", error.userInfo)
+//                }
+//            }
+        }
     }
     
     //MARK: - Read
@@ -120,13 +140,14 @@ class ViewModel {
     }
     
     //MARK: - Delete
-    func deleteTrack(id: UUID) {
-        trackRepository.delete(id: id)
-        loadData()
-    }
+//    func deleteTrack(id: UUID) {
+//        trackRepository.delete(id: id)
+//        loadData()
+//    }
     
     func deleteTrack(_ track: Track) {
         trackRepository.delete(track)
+        mediaStorage.removeAudio(trackID: track.id, format: track.format)
         loadData()
     }
     

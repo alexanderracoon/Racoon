@@ -9,5 +9,6 @@ import CoreData
 
 protocol CoreDataStackProtocol {
     var context: NSManagedObjectContext { get }
-    func save()
+    func save() throws
+    func rollback()
 }

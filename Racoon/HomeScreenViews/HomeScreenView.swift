@@ -16,6 +16,9 @@ struct HomeScreenView: View {
                 HomeScreenTopView()
                 
                 HomeScreenRecentGridView()
+                NavigationLink(destination: ImageDropView()) {
+                    Text("Drop Image")
+                }
                 
                 HomeScreenRecentAlbumsView()
 //                    .aspectRatio(1.9, contentMode: .fit)
