@@ -27,7 +27,7 @@ struct FavoriteView : View {
                 .padding(.leading, 10)
             List{
                 ForEach(viewModel.tracks) { track in
-                    TrackViewInList(title: track.title ?? "Untitled", artist: track.artists.first?.name ?? "Blank Artist") {
+                    TrackViewInList(title: track.title ?? "Untitled", artist: track.artists.first?.name ?? "Blank Artist", imageURL: track.cover) {
                         Button {
                             playbackManager.play(track: track)
                         } label: {
@@ -67,7 +67,7 @@ struct FavoriteView : View {
                 }
                 ToolbarItem {
                     Button ("Add Track") {
-                        viewModel.createTrack(title: "New Track 2 ", duration: 100, audioFormat: .mp3, isDownloaded: true, isFavourite: true, timeAdded: Date(), timeLastPlayed: Date(), timesPlayed: 10, albumName: "New Album 2", artistName: "New Artist 2", genreName: "New Genre 2")
+                        viewModel.createTrack(title: "New Track 2 ", duration: 100, audioFormat: .mp3, trackCoverData: Data(), isDownloaded: true, isFavourite: true, timeAdded: Date(), timeLastPlayed: Date(), timesPlayed: 10, trackData: Data(), albumName: "New Album 2", artistName: "New Artist 2", genreName: "New Genre 2")
                     }
                 }
             }
