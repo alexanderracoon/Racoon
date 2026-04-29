@@ -61,7 +61,7 @@ struct ImageDropView: View {
                     .overlay(Text("Drop photo"))
             }
         }
-        .dropDestination(for: Data.self) { items, location in
+        .dropDestination(for: Data.self) { items, _  in
             guard let data = items.first else { return false }
             
             if let url = saveImage(data: data) {

@@ -18,14 +18,16 @@ class LocalMediaStorage {
     }
     
     var audioURL: URL { documentsURL.appending(path: "Audio") }
+    var coversURL: URL { documentsURL.appending (path: "Covers") }
+    var trackCoversURL: URL { coversURL.appending(path: "Tracks") }
     
     func saveAudio(data: Data, trackID: UUID, format: AudioFormat) -> URL {
         //MARK: - Проверка на существование деректорий и т.п
-        createAudioDirectoryIfNeeded()
+        createDirectoryIfNeeded(for: audioURL)
         
         let url = audioURL.appendingPathComponent("\(trackID).\(format.rawValue)")
-        print("Url to save: \(url.path)")
-
+        print("Url to save audio: \(url.path)")
+        
         do{
             try data.write(to: url)
             print("Data saved successfully to: \(url.path)")
@@ -48,21 +50,53 @@ class LocalMediaStorage {
         }
     }
     
-    func loadTrackImage(track: Track) -> Data? {
+    func loadTrackCover(track: Track) -> Data? {
         guard let id = track.id else { return nil}
-        let url = audioURL.appendingPathComponent("\(id).\(track.format.rawValue)")
+        let url = trackCoversURL.appendingPathComponent("\(id).jpg")
         return loadImage(for: url)
+    }
+    func removeTrackCover(trackID: UUID?) {
+        guard let trackID = trackID else { return print("ID doesn't exist")}
+        let url = trackCoversURL.appendingPathComponent ("\(trackID).jpg")
+        do {
+            try FileManager.default.removeItem(at: url)
+            print(url.path, "Deleted")
+        }
+        catch {
+            print(error.localizedDescription, "Error deleting file")
+        }
+    }
+    
+    func saveTrackCover(data: Data, trackID: UUID) -> URL {
+        createDirectoryIfNeeded (for: trackCoversURL)
+        //MARK: - поправить расширение файла
+        let url = trackCoversURL.appendingPathComponent("\(trackID).jpg")
+        print("Url to save track cover: \(url.path)")
+        do{
+            try data.write(to: url)
+            print("Data saved successfully to: \(url.path)")
+        }
+        catch{
+            print(error.localizedDescription, "Error saving file")
+        }
+        return url
+    }
+    
+    func createDirectoryIfNeeded (for url: URL){
+        if !FileManager.default.fileExists(atPath: url.path) {
+            try? FileManager.default.createDirectory(at: url, withIntermediateDirectories: true)
+        }
     }
     
     func loadImage(for url: URL) -> Data? {
         try? Data(contentsOf: url)
     }
     
-    func createAudioDirectoryIfNeeded() {
-        if !FileManager.default.fileExists(atPath: audioURL.path) {
-            try? FileManager.default.createDirectory(at: audioURL, withIntermediateDirectories: true)
-        }
-    }
+//    func createAudioDirectoryIfNeeded() {
+//        if !FileManager.default.fileExists(atPath: audioURL.path) {
+//            try? FileManager.default.createDirectory(at: audioURL, withIntermediateDirectories: true)
+//        }
+//    }
 
     //MARK: - Не нужно пока
     func deleteFile(at url: URL?) {
@@ -70,14 +104,14 @@ class LocalMediaStorage {
         try? FileManager.default.removeItem(at: url)
     }
     
-    func saveData(data: Data) {
-        let newFolderUrl: URL = documentsURL.appendingPathComponent("Audio")
-        
-        FileManager.default.createFile(
-            atPath: newFolderUrl.path(),
-            contents: data,
-            attributes: [FileAttributeKey.creationDate : Date()])
-    }
+//    func saveData(data: Data) {
+//        let newFolderUrl: URL = documentsURL.appendingPathComponent("Audio")
+//        
+//        FileManager.default.createFile(
+//            atPath: newFolderUrl.path(),
+//            contents: data,
+//            attributes: [FileAttributeKey.creationDate : Date()])
+//    }
     
     func saveImage(data: Data) -> URL? {
         let folder = FileManager.default

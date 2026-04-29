@@ -43,6 +43,7 @@ class TrackRepository: TrackRepositoryProtocol {
             track.timeAdded = timeAdded
             track.timeLastPlayed = timeLastPlayed
             track.timesPlayed = timesPlayed
+            print("Track Repository id: \(id)")
             // Скорее всего не нужен
             return track
     }

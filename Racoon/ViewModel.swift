@@ -48,6 +48,7 @@ class ViewModel {
         title: String,
         duration: Double,
         audioFormat: AudioFormat,
+        trackCoverData: Data,
         isDownloaded: Bool,
         isFavourite: Bool,
         timeAdded: Date,
@@ -65,6 +66,7 @@ class ViewModel {
                 title: title,
                 duration: duration,
                 audioFormat: audioFormat,
+                trackCoverData: trackCoverData,
                 isDownloaded: isDownloaded,
                 isFavourite: isFavourite,
                 timeAdded: timeAdded,
@@ -80,15 +82,6 @@ class ViewModel {
         } catch let error as NSError {
             print("CoreData saveContext error ", error.localizedDescription)
             print("Save error: \(error)")
-            
-//            if let errors = error.userInfo[NSDetailedErrorsKey] as? [NSError] {
-//                for error in errors {
-//                    print("----")
-//                    print("code:", error.code)
-//                    print("description:", error.localizedDescription)
-//                    print("userInfo:", error.userInfo)
-//                }
-//            }
         }
     }
     
@@ -146,8 +139,11 @@ class ViewModel {
 //    }
     
     func deleteTrack(_ track: Track) {
+        let trackID = track.id
+        let trackFormat = track.format
         trackRepository.delete(track)
-        mediaStorage.removeAudio(trackID: track.id, format: track.format)
+        mediaStorage.removeAudio(trackID: trackID, format: trackFormat)
+        mediaStorage.removeTrackCover(trackID: trackID)
         loadData()
     }
     

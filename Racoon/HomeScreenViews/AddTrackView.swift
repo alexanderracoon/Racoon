@@ -15,12 +15,13 @@ struct AddTrackView: View {
         var title: String = ""
         var duration: String = ""
         var audioFormat: AudioFormat = .mp3
+        var trackCoverData: Data? = nil
         var isDownloaded: Bool = true
         var isFavourite: Bool = true
         var timeAdded: Date = .now
         var timeLastPlayed: Date = .now
         var timesPlayed: String = ""
-        var trackData: Data = Data()
+        var trackData: Data? = nil
         var albumName: String = ""
         var album: Album?
         var artist: Artist?
@@ -29,10 +30,38 @@ struct AddTrackView: View {
     }
     
     @State private var form = TrackBlankForm()
-        
+    @State private var prhoto: Image = Image(systemName: "photo")
+    @State private var isTargeted: Bool = false
+    @State private var isPresented: Bool = false
     
     var body: some View {
         //        NavigationStack {
+        VStack{
+            if let uiImage = UIImage(data: form.trackCoverData ?? Data()) {
+                Image (uiImage: uiImage)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 200, height: 200)
+                    .clipShape (RoundedRectangle(cornerRadius: 16))
+            }
+            else {
+                RoundedRectangle(cornerRadius: 16)
+                    . strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [15]))
+                    .frame(width: 200, height: 200)
+                    .overlay(Text("Drop photo"))
+            }
+        }.dropDestination(for: Data.self) { items, _ in
+            guard let data = items.first else { return false }
+            form.trackCoverData = data
+            //MARK: - перенести из View
+//            if let url = saveImage(data: data) {
+//                imageURL = url
+//            }
+            return true
+        } isTargeted: { isTargeted in
+            self.isTargeted = isTargeted
+        }
+        
         Form {
             Section("Основное") {
                 TextField("Название", text: $form.title)
@@ -76,25 +105,25 @@ struct AddTrackView: View {
                 TextField("Жанр", text: $form.genreName)
             }
             
-            Section {
-                Button("Создать сущность") {
-                    createTrack()
-                }
-            }
+//            Section {
+//                Button("Создать сущность") {
+//                    createTrack()
+//                }
+//            }
         }
         .scrollContentBackground(.hidden)
 //        .background(.mainGray)
         .toolbar(){
             Button("Создать сущность") {
-                createTrack()
+                createTrack(trackData: Data())
             }
         }
-        .navigationTitle("Новый трек")
+        .navigationTitle(form.title)
 //        }
     }
     
-    private func createTrack() {
-        viewModel.createTrack(title: form.title, duration: 100, audioFormat: form.audioFormat, isDownloaded: form.isDownloaded, isFavourite: form.isFavourite, timeAdded: form.timeAdded, timeLastPlayed: form.timeLastPlayed, timesPlayed: 0, trackData: form.trackData, albumName: "Album Test", album: form.album, artistName: "Artist Test", artist: form.artist, genreName: "Genre Test")
+    private func createTrack(trackData: Data) {
+        viewModel.createTrack(title: form.title, duration: 100, audioFormat: form.audioFormat, trackCoverData: form.trackCoverData ?? Data(), isDownloaded: form.isDownloaded, isFavourite: form.isFavourite, timeAdded: form.timeAdded, timeLastPlayed: form.timeLastPlayed, timesPlayed: 0, trackData: trackData, albumName: "Album Test", album: form.album, artistName: "Artist Test", artist: form.artist, genreName: "Genre Test")
     }
     
 //    private func createTrack() {

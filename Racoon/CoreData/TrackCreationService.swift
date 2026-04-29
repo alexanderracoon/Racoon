@@ -40,6 +40,7 @@ class TrackCreationService {
         fileURL: URL? = nil,
         cover: URL? = nil,
         audioFormat: AudioFormat,
+        trackCoverData: Data,
         isDownloaded: Bool,
         isFavourite: Bool,
         timeAdded: Date,
@@ -58,14 +59,18 @@ class TrackCreationService {
 //    -> Track
     {
         let trackID = UUID()
-        let trackPath: URL = mediaStorage.saveAudio(data: trackData, trackID: trackID, format: audioFormat)
         
+        let trackPath: URL = mediaStorage.saveAudio(data: trackData, trackID: trackID, format: audioFormat)
+        //MARK: - Переделать
+                                
+        let coverPath: URL = mediaStorage.saveTrackCover(data: trackCoverData,trackID: trackID)
+                                                         
         let track = trackRepository.create(
             id : trackID,
             title: title,
             duration: duration,
             fileURL: trackPath,
-            cover: cover,
+            cover: coverPath,
             audioFormat: audioFormat,
             isDownloaded: isDownloaded,
             isFavourite: isFavourite,
@@ -102,6 +107,7 @@ class TrackCreationService {
             try stack.save()
         } catch {
             mediaStorage.deleteFile(at: trackPath)
+            mediaStorage.removeTrackCover(trackID: trackID)
             stack.rollback()
             throw error
         }
