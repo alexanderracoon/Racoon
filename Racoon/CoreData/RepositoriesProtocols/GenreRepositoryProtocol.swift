@@ -8,8 +8,7 @@
 import Foundation
 
 protocol GenreRepositoryProtocol {
-    func create(
-        name: String) -> Genre
+    func create(id: UUID, name: String) -> Genre
     func findOrCreate(name: String) -> Genre
     func fetchAll() throws -> [Genre]
     func fetch(id: UUID) throws -> Genre?

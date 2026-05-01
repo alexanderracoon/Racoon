@@ -25,11 +25,11 @@ class GenreRepository: GenreRepositoryProtocol {
         if let existing = try? context.fetch(request).first {
             return existing
         }
-        
-        return create(name: name)
+        //MARK: - Доделать/переделать
+        return create(id: UUID(), name: name)
     }
     
-    func create(name: String) -> Genre {
+    func create(id: UUID, name: String) -> Genre {
         let genre = Genre(context: context)
         genre.id = UUID()
         genre.name = name

@@ -14,6 +14,8 @@ class ViewModel {
     let trackRepository: TrackRepositoryProtocol
     let albumRepository: AlbumRepositoryProtocol
     let artistRepository: ArtistRepositoryProtocol
+    let artistCreationService: ArtistCreationService
+    let albumCreationService: AlbumCreationService
     let genreRepository: GenreRepositoryProtocol
     //MARK: - Protocol?
     let mediaStorage: LocalMediaStorage
@@ -40,6 +42,8 @@ class ViewModel {
             genreRepository: genreRepository,
             mediaStorage: mediaStorage
         )
+        self.artistCreationService = ArtistCreationService(stack: stack, artistRepository: artistRepository, mediaStorage: mediaStorage)
+        self.albumCreationService = AlbumCreationService(stack: stack, albumRepository: albumRepository, mediaStorage: mediaStorage)
 //        loadTracks()
         loadData()
     }
@@ -84,6 +88,28 @@ class ViewModel {
             print("Save error: \(error)")
         }
     }
+    
+    func createAlbum(_ albumDTO: AlbumDTO) {
+        do {
+            try albumCreationService.createAlbum(albumDTO: albumDTO)
+            loadData()
+        } catch let error as NSError {
+            print("CoreData saveContext error ", error.localizedDescription)
+            print("Save error: \(error)")
+        }
+    }
+    
+    func createArtist(_ artistDTO: ArtistDTO) {
+        do {
+            try artistCreationService.createArtist(artistDTO: artistDTO)
+            loadData()
+        } catch let error as NSError {
+            print("CoreData saveContext error ", error.localizedDescription)
+            print("Save error: \(error)")
+        }
+//        artistRepository.create(cover: artistDTO., name: artistDTO.name)
+    }
+    
     
     //MARK: - Read
     //MARK: - заменить на дженерики типо fetchAll<T>( () throws -> <T> ) -> [T] и придумать что делать с репозиторием, может тоже сделать дженерик репозиторий
@@ -146,6 +172,23 @@ class ViewModel {
         mediaStorage.removeTrackCover(trackID: trackID)
         loadData()
     }
+    func deleteAlbum(_ album: Album) {
+        let albumID = album.id
+        //MARK: - Придумать где реализовывать
+        albumRepository.delete(album)
+        mediaStorage.removeAlbumCover(albumID: albumID)
+//        mediaStorage.removeAudio(trackID: trackID, format: trackFormat)
+        loadData()
+    }
+    
+    func deleteArtist(_ artist: Artist) {
+        let artistID = artist.id
+        //MARK: - Придумать где реализовывать
+        artistRepository.delete(artist)
+        mediaStorage.removeArtistCover(artistID: artistID)
+//        mediaStorage.removeAudio(trackID: trackID, format: trackFormat)
+        loadData()
+    }
     
     func deleteTrack(indexSet: IndexSet) {
         for index in indexSet {
@@ -162,17 +205,11 @@ class ViewModel {
         albumRepository.delete(id: id)
     }
     
-    func deleteAlbum(_ album: Album) {
-        albumRepository.delete(album)
-    }
     
     func deleteArtist(id: UUID) {
         artistRepository.delete(id: id)
     }
     
-    func deleteArtist(_ artist: Artist) {
-        artistRepository.delete(artist)
-    }
     
     func deleteGenre(id: UUID) {
         genreRepository.delete(id: id)

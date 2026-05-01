@@ -62,9 +62,9 @@
             filePath = "Racoon/ViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "65"
-            endingLineNumber = "65"
-            landmarkName = "createTrack(title:duration:audioFormat:isDownloaded:isFavourite:timeAdded:timeLastPlayed:timesPlayed:trackData:albumName:album:artistName:artist:genreName:)"
+            startingLineNumber = "69"
+            endingLineNumber = "69"
+            landmarkName = "createTrack(title:duration:audioFormat:trackCoverData:isDownloaded:isFavourite:timeAdded:timeLastPlayed:timesPlayed:trackData:albumName:album:artistName:artist:genreName:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -78,9 +78,9 @@
             filePath = "Racoon/ViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "47"
-            endingLineNumber = "47"
-            landmarkName = "createTrack(title:duration:audioFormat:isDownloaded:isFavourite:timeAdded:timeLastPlayed:timesPlayed:trackData:albumName:album:artistName:artist:genreName:)"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "createTrack(title:duration:audioFormat:trackCoverData:isDownloaded:isFavourite:timeAdded:timeLastPlayed:timesPlayed:trackData:albumName:album:artistName:artist:genreName:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -110,8 +110,8 @@
             filePath = "Racoon/CoreData/TrackCreationService.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "68"
-            endingLineNumber = "68"
+            startingLineNumber = "66"
+            endingLineNumber = "66"
             landmarkName = "createTrack(title:duration:fileURL:cover:audioFormat:trackCoverData:isDownloaded:isFavourite:timeAdded:timeLastPlayed:timesPlayed:trackData:albumTitle:album:artistName:artist:genreName:)"
             landmarkType = "7">
          </BreakpointContent>

@@ -18,6 +18,7 @@ class ArtistRepository: ArtistRepositoryProtocol {
         self.context = coreDataStack.context
     }
     
+    //MARK: - Переписать,чтобы было не нужно? 
     func findOrCreate(name: String) -> Artist {
         let request: NSFetchRequest<Artist> = Artist.fetchRequest()
         request.predicate = NSPredicate(format: "name == %@", name)
@@ -26,18 +27,20 @@ class ArtistRepository: ArtistRepositoryProtocol {
         if let existing = try? context.fetch(request).first {
             return existing
         }
-        
-        return create(name: name)
+        //MARK: - Доработать
+        return create(id: UUID(), name: name)
     }
     
     //MARK: - Доработать
-    func create(cover: URL? = nil,
-                name: String) -> Artist {
-        let artist = Artist(context: context)
-        artist.id = UUID()
-        artist.cover = cover
-        artist.name = name
-        
+    func create(
+        id: UUID,
+        cover: URL? = nil,
+        name: String) -> Artist {
+            let artist = Artist(context: context)
+            artist.id = id
+            artist.cover = cover
+            artist.name = name
+            
         return artist
     }
     

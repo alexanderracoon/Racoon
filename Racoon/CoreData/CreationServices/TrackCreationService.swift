@@ -58,11 +58,9 @@ class TrackCreationService {
     ) throws
 //    -> Track
     {
+        //MARK: - Создание Track, без связей
         let trackID = UUID()
-        
         let trackPath: URL = mediaStorage.saveAudio(data: trackData, trackID: trackID, format: audioFormat)
-        //MARK: - Переделать
-                                
         let coverPath: URL = mediaStorage.saveTrackCover(data: trackCoverData,trackID: trackID)
                                                          
         let track = trackRepository.create(
@@ -78,6 +76,9 @@ class TrackCreationService {
             timeLastPlayed: timeLastPlayed,
             timesPlayed: timesPlayed
         )
+        
+        //MARK: - Создание альбома
+        
         var myAlbum: Album
         if let album = album {
             myAlbum = album
@@ -91,6 +92,8 @@ class TrackCreationService {
 //            //            cover: albumCover,
 //            //            releaseDate: albumReleaseDate
 //        )
+        
+        //MARK: - Создание артиста
         var myArtist: Artist
         if let artist = artist {
             myArtist = artist
@@ -99,6 +102,7 @@ class TrackCreationService {
             myArtist = artistRepository.findOrCreate(name: artistName)
         }
         
+        //MARK: - Создание жанра
         let genre = genreRepository.findOrCreate(name: genreName)
         
         createRelationships(track: track, album: myAlbum, artist: myArtist, genre: genre)

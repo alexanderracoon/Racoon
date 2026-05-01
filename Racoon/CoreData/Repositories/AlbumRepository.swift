@@ -27,17 +27,16 @@ class AlbumRepository: AlbumRepositoryProtocol {
         if let existing = try? context.fetch(request).first {
             return existing
         }
-        
-        return create(title: title)
+        //MARK: - Доделать/переписать
+        return create(id: UUID(), title: title)
     }
-    
     func create(
+        id: UUID,
         cover: URL? = nil,
         title: String = "",
-        releaseDate: Date = Date()
-    ) -> Album {
+        releaseDate: Date = Date()) -> Album {
         let album = Album(context: context)
-        album.id = UUID()
+        album.id = id
         album.cover = cover
         album.title = title
         album.releaseDate = releaseDate

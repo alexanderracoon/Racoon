@@ -9,6 +9,7 @@ import Foundation
 
 protocol ArtistRepositoryProtocol {
     func create(
+        id: UUID,
         cover: URL?,
         name: String) -> Artist
     //MARK: - Доработать в будущем

@@ -9,6 +9,7 @@ import Foundation
 
 protocol AlbumRepositoryProtocol {
     func create(
+        id: UUID,
         cover: URL?,
         title: String,
         releaseDate: Date) -> Album

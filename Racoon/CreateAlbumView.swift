@@ -25,17 +25,9 @@ struct CreateAlbumView: View {
             
             TextField("Title", text: $form.title)
             DatePicker("Release Date", selection: $form.releaseDate, displayedComponents: .date)
-            
-//            Picker(selection: $form. ) {
-//                ForEach(1...100, id: \.self) {
-//                    Text("Album \($0)")
-//                }
-//            }
         }
     }
 }
-
-//    import UniformTypeIdentifiers
 
 struct ImageDropView: View {
     @State private var imageURL: URL?

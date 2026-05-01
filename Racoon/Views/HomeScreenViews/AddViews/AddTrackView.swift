@@ -11,7 +11,7 @@ import SwiftUI
 struct AddTrackView: View {
     @Environment(ViewModel.self) private var viewModel: ViewModel
 
-    struct TrackBlankForm {
+    struct TrackDTO {
         var title: String = ""
         var duration: String = ""
         var audioFormat: AudioFormat = .mp3
@@ -29,7 +29,7 @@ struct AddTrackView: View {
         var genreName: String = ""
     }
     
-    @State private var form = TrackBlankForm()
+    @State private var form = TrackDTO()
     @State private var prhoto: Image = Image(systemName: "photo")
     @State private var isTargeted: Bool = false
     @State private var isPresented: Bool = false
@@ -122,36 +122,10 @@ struct AddTrackView: View {
 //        }
     }
     
+    //MARK: - Поменять trackCoverData 
     private func createTrack(trackData: Data) {
         viewModel.createTrack(title: form.title, duration: 100, audioFormat: form.audioFormat, trackCoverData: form.trackCoverData ?? Data(), isDownloaded: form.isDownloaded, isFavourite: form.isFavourite, timeAdded: form.timeAdded, timeLastPlayed: form.timeLastPlayed, timesPlayed: 0, trackData: trackData, albumName: "Album Test", album: form.album, artistName: "Artist Test", artist: form.artist, genreName: "Genre Test")
     }
-    
-//    private func createTrack() {
-//           guard let duration = Double(form.duration),
-//                 let timesPlayed = Int32(form.timesPlayed),
-//                 !form.title.isEmpty,
-//                 !form.albumName.isEmpty,
-//                 !form.artistName.isEmpty,
-//                 !form.genreName.isEmpty
-//           else {
-//               print("Некорректные данные")
-//               return
-//           }
-//
-//           viewModel.createTrack(
-//               title: form.title,
-//               duration: duration,
-//               audioFormat: form.audioFormat,
-//               isDownloaded: form.isDownloaded,
-//               isFavourite: form.isFavourite,
-//               timeAdded: form.timeAdded,
-//               timeLastPlayed: form.timeLastPlayed,
-//               timesPlayed: timesPlayed,
-//               albumName: form.albumName,
-//               artistName: form.artistName,
-//               genreName: form.genreName
-//           )
-//       }
 }
 
 
