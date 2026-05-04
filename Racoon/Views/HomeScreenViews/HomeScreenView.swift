@@ -32,9 +32,9 @@ struct HomeScreenView: View {
             .background(Color.black)
         }
         .navigationTitle(Text("Home Screen"))
-        .safeAreaInset(edge: .bottom) {
-            PlaybackView()
-        }
+//        .safeAreaInset(edge: .bottom) {
+//            PlaybackView()
+//        }
     }
 }
 

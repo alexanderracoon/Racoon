@@ -23,11 +23,18 @@ class AlbumCreationService {
         self.mediaStorage = mediaStorage
     }
     
-    func createAlbum(albumDTO: AlbumDTO) throws -> Void {
+    func create(albumDTO: AlbumDTO) throws -> Void {
         let albumID = UUID()
         let albumCoverPath = mediaStorage.saveAlbumCover(data: albumDTO.albumCoverData, albumID: albumID)
         
-        albumRepository.create(id: albumID, cover: albumCoverPath, title: albumDTO.title, releaseDate: albumDTO.releaseDate)
+        let album = albumRepository.create(id: albumID, cover: albumCoverPath, title: albumDTO.title, releaseDate: albumDTO.releaseDate)
+        
+        if let track = albumDTO.track {
+            album.addToTracks(track)
+        }
+        if let artist = albumDTO.artist {
+            album.addToArtists(artist)
+        }
         
         do {
             try stack.save()

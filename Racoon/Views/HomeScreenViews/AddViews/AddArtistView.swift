@@ -14,32 +14,32 @@ struct AddArtistView: View {
     @State private var form = ArtistDTO()
     @State private var isTargeted: Bool = false
     @State private var isPresented: Bool = false
-
+    
     
     var body: some View {
-        VStack {
-            VStack{
-                if let uiImage = UIImage(data: form.artistCoverData ?? Data()) {
-                    Image (uiImage: uiImage)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 200, height: 200)
-                        .clipShape (RoundedRectangle(cornerRadius: 16))
-                }
-                else {
-                    RoundedRectangle(cornerRadius: 16)
-                        . strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [15]))
-                        .frame(width: 200, height: 200)
-                        .overlay(Text("Drop photo"))
-                }
-            }.dropDestination(for: Data.self) { items, _ in
-                guard let data = items.first else { return false }
-                form.artistCoverData = data
-                return true
-            } isTargeted: { isTargeted in
-                self.isTargeted = isTargeted
+        //        VStack {
+        VStack{
+            if let uiImage = UIImage(data: form.artistCoverData ?? Data()) {
+                Image (uiImage: uiImage)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 200, height: 200)
+                    .clipShape (RoundedRectangle(cornerRadius: 16))
             }
-            
+            else {
+                RoundedRectangle(cornerRadius: 16)
+                    . strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [15]))
+                    .frame(width: 200, height: 200)
+                    .overlay(Text("Drop photo"))
+            }
+        }.dropDestination(for: Data.self) { items, _ in
+            guard let data = items.first else { return false }
+            form.artistCoverData = data
+            return true
+        } isTargeted: { isTargeted in
+            self.isTargeted = isTargeted
+        }
+        Form {
             TextField("Название", text: $form.name)
             
             Picker("Album", selection: $form.album) {
@@ -55,7 +55,10 @@ struct AddArtistView: View {
                     Text(track.title ?? "No title").tag(track)
                 }
             }
-        }
+//        }
+    }
+        .scrollContentBackground(.hidden)
+    //        .background(.mainGray)
         .toolbar(){
             Button("Создать артиста") {
                 createArtist(ArtistData: Data())

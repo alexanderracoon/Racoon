@@ -13,7 +13,7 @@ struct PlaybackView: View {
     var body: some View {
         VStack(spacing: 0){
             ZStack(alignment: .bottom){
-                TrackViewInList(title: playbackManager.playingTitle, artist: playbackManager.playingArtist) {
+                TrackViewInList(title: playbackManager.playingTitle, artist: playbackManager.playingArtist, imageURL: playbackManager.playingTrackCover) {
                     Button {
                         playbackManager.playPause()
                     } label: {

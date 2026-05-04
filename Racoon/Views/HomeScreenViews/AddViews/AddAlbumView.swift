@@ -16,8 +16,7 @@ struct AddAlbumView: View {
 
     
     var body: some View {
-        Text("Add Album View")
-        VStack{
+        VStack(alignment: .center) {
             if let uiImage = UIImage(data: form.albumCoverData ?? Data()) {
                 Image (uiImage: uiImage)
                     .resizable()
@@ -27,7 +26,7 @@ struct AddAlbumView: View {
             }
             else {
                 RoundedRectangle(cornerRadius: 16)
-                    . strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [15]))
+                    .strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [15]))
                     .frame(width: 200, height: 200)
                     .overlay(Text("Drop photo"))
             }
@@ -38,25 +37,37 @@ struct AddAlbumView: View {
         } isTargeted: { isTargeted in
             self.isTargeted = isTargeted
         }
-        
-        TextField("Название", text: $form.title)
-
-        DatePicker("Дата добавления", selection: $form.releaseDate, displayedComponents: [.date])
-
-        Picker("Artist", selection: $form.artist) {
-            Text("None").tag(nil as Artist?)
-            ForEach(viewModel.artists) { artist in
-                Text(artist.name ?? "No name").tag(artist)
+        Form {
+            TextField("Название", text: $form.title)
+            
+            DatePicker("Дата добавления", selection: $form.releaseDate, displayedComponents: [.date])
+            
+            Picker("Artist", selection: $form.artist) {
+                Text("None").tag(nil as Artist?)
+                ForEach(viewModel.artists) { artist in
+                    Text(artist.name ?? "No name").tag(artist)
+                }
+            }
+            
+            Picker("Track", selection: $form.track) {
+                Text("None").tag(nil as Track?)
+                ForEach(viewModel.tracks) { track in
+                    Text(track.title ?? "No title").tag(track)
+                }
             }
         }
-        
-        Picker("Track", selection: $form.track) {
-            Text("None").tag(nil as Track?)
-            ForEach(viewModel.tracks) { track in
-                Text(track.title ?? "No title").tag(track)
+        .scrollContentBackground(.hidden)
+//        .background(.mainGray)
+        .toolbar(){
+            Button("Создать альбом") {
+                createAlbum()
             }
         }
-        
+        .navigationTitle(form.title)
+    }
+    
+    func createAlbum() {
+        viewModel.createAlbum(form)
     }
 }
 

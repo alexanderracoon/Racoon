@@ -42,10 +42,17 @@ class PlaybackManager {
         guard let currentTrack else { return "Unknown artist" }
         let artists = currentTrack.artists
         
+        
         var artistNames = ""
+        if artists.count == 0 { artistNames = "Blank author"}
         for artist in artists {
             artistNames.append(artist.name ?? "Anonymous author ")
         }
         return artistNames
+    }
+    
+    var playingTrackCover: URL? {
+        guard let currentTrack else { return nil }
+        return currentTrack.cover
     }
 }

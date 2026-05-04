@@ -23,9 +23,16 @@ class ViewModel {
     var tracks: [Track] = []
     var albums: [Album] = []
     var artists: [Artist] = []
-    
+    var genres: [Genre] = []
+    var seceltedGenres: [Genre] = []
     func loadTracks() { tracks = fetchAllTracks() }
 
+    func checkGenres(selectedGenres: Set<UUID>) -> [Genre] {
+        genres.filter { genre in
+            guard let id = genre.id else { return false }
+            return selectedGenres.contains(id)
+        }
+    }
     
     init() {
         let stack = CoreDataStack()
@@ -34,54 +41,66 @@ class ViewModel {
         self.artistRepository = ArtistRepository(coreDataStack: stack)
         self.genreRepository = GenreRepository(coreDataStack: stack)
         self.mediaStorage = LocalMediaStorage()
-        self.trackCreationService = TrackCreationService(
-            stack: stack,
-            trackRepository: trackRepository,
-            albumRepository: albumRepository,
-            artistRepository: artistRepository,
-            genreRepository: genreRepository,
-            mediaStorage: mediaStorage
-        )
+        self.trackCreationService = TrackCreationService(stack: stack, trackRepository: trackRepository, mediaStorage: mediaStorage)
         self.artistCreationService = ArtistCreationService(stack: stack, artistRepository: artistRepository, mediaStorage: mediaStorage)
         self.albumCreationService = AlbumCreationService(stack: stack, albumRepository: albumRepository, mediaStorage: mediaStorage)
+//        self.trackCreationService = SongCreationService(
+//            stack: stack,
+//            trackRepository: trackRepository,
+//            albumRepository: albumRepository,
+//            artistRepository: artistRepository,
+//            genreRepository: genreRepository,
+//            mediaStorage: mediaStorage
+//        )
 //        loadTracks()
         loadData()
     }
     
-    func createTrack(
-        title: String,
-        duration: Double,
-        audioFormat: AudioFormat,
-        trackCoverData: Data,
-        isDownloaded: Bool,
-        isFavourite: Bool,
-        timeAdded: Date,
-        timeLastPlayed: Date,
-        timesPlayed: Int32,
-        trackData: Data,
-        albumName: String = "",
-        album: Album? = nil,
-        artistName: String = "",
-        artist: Artist? = nil,
-        genreName: String
-    ) {
+//    func createTrack(
+//        title: String,
+//        duration: Double,
+//        audioFormat: AudioFormat,
+//        trackCoverData: Data,
+//        isDownloaded: Bool,
+//        isFavourite: Bool,
+//        timeAdded: Date,
+//        timeLastPlayed: Date,
+//        timesPlayed: Int32,
+//        trackData: Data,
+//        albumName: String = "",
+//        album: Album? = nil,
+//        artistName: String = "",
+//        artist: Artist? = nil,
+//        genreName: String
+//    ) {
+//        do {
+//            try trackCreationService.createTrack(
+//                title: title,
+//                duration: duration,
+//                audioFormat: audioFormat,
+//                trackCoverData: trackCoverData,
+//                isDownloaded: isDownloaded,
+//                isFavourite: isFavourite,
+//                timeAdded: timeAdded,
+//                timeLastPlayed: timeLastPlayed,
+//                timesPlayed: timesPlayed,
+//                trackData: trackData,
+//                albumTitle: albumName,
+//                album: album,
+//                artistName: artistName,
+//                artist: artist,
+//                genreName: genreName)
+//            loadData()
+//        } catch let error as NSError {
+//            print("CoreData saveContext error ", error.localizedDescription)
+//            print("Save error: \(error)")
+//        }
+//    }
+    
+    func createTrack(_ trackDTO: TrackDTO) {
         do {
-            try trackCreationService.createTrack(
-                title: title,
-                duration: duration,
-                audioFormat: audioFormat,
-                trackCoverData: trackCoverData,
-                isDownloaded: isDownloaded,
-                isFavourite: isFavourite,
-                timeAdded: timeAdded,
-                timeLastPlayed: timeLastPlayed,
-                timesPlayed: timesPlayed,
-                trackData: trackData,
-                albumTitle: albumName,
-                album: album,
-                artistName: artistName,
-                artist: artist,
-                genreName: genreName)
+//            trackDTO.genres = seceltedGenres
+            try trackCreationService.create(trackDTO: trackDTO)
             loadData()
         } catch let error as NSError {
             print("CoreData saveContext error ", error.localizedDescription)
@@ -91,7 +110,7 @@ class ViewModel {
     
     func createAlbum(_ albumDTO: AlbumDTO) {
         do {
-            try albumCreationService.createAlbum(albumDTO: albumDTO)
+            try albumCreationService.create(albumDTO: albumDTO)
             loadData()
         } catch let error as NSError {
             print("CoreData saveContext error ", error.localizedDescription)
@@ -101,13 +120,12 @@ class ViewModel {
     
     func createArtist(_ artistDTO: ArtistDTO) {
         do {
-            try artistCreationService.createArtist(artistDTO: artistDTO)
+            try artistCreationService.create(artistDTO: artistDTO)
             loadData()
         } catch let error as NSError {
             print("CoreData saveContext error ", error.localizedDescription)
             print("Save error: \(error)")
         }
-//        artistRepository.create(cover: artistDTO., name: artistDTO.name)
     }
     
     
@@ -158,6 +176,14 @@ class ViewModel {
         }
     }
     
+    func fetchAllGenres() -> [Genre] {
+        do {
+            return try genreRepository.fetchAll()
+        } catch {
+            print("FetchAllGenres Error: \(error)")
+            return []
+        }
+    }
     //MARK: - Delete
 //    func deleteTrack(id: UUID) {
 //        trackRepository.delete(id: id)
@@ -225,5 +251,6 @@ class ViewModel {
         tracks = fetchAllTracks()
         albums = fetchAllAlbums()
         artists = fetchAllArtists()
+        genres = fetchAllGenres()
     }
 }

@@ -13,8 +13,6 @@ class ArtistCreationService {
     private let mediaStorage: LocalMediaStorage
     init(
         stack: CoreDataStackProtocol,
-//        trackRepository: TrackRepositoryProtocol,
-//        albumRepository: AlbumRepositoryProtocol,
         artistRepository: ArtistRepositoryProtocol,
 //        genreRepository: GenreRepositoryProtocol,
         //MARK: - Protocol?
@@ -28,11 +26,17 @@ class ArtistCreationService {
         self.mediaStorage = mediaStorage
     }
     
-    func createArtist(artistDTO: ArtistDTO) throws -> Void {
+    func create(artistDTO: ArtistDTO) throws -> Void {
         let artistID = UUID()
         let artistCoverPath = mediaStorage.saveArtistCover(data: artistDTO.artistCoverData, artistID: artistID)
         
-        artistRepository.create(id: artistID, cover: artistCoverPath, name: artistDTO.name)
+        let artist = artistRepository.create(id: artistID, cover: artistCoverPath, name: artistDTO.name)
+        if let album = artistDTO.album {
+            artist.addToAlbums(album)
+        }
+        if let track = artistDTO.track {
+            artist.addToTracks(track)
+        }
         
         do {
             try stack.save()
