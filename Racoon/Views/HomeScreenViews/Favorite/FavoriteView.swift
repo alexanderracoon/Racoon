@@ -1,11 +1,11 @@
-    //
-    //  FavoriteView.swift
-    //  Racoon
-    //
-    //  Created by Александр Переславцев on 20.04.2026.
-    //
+//
+//  FavoriteView.swift
+//  Racoon
+//
+//  Created by Александр Переславцев on 20.04.2026.
+//
 
-    import SwiftUI
+import SwiftUI
 
 
 struct FavoriteView : View {
@@ -51,10 +51,6 @@ struct FavoriteView : View {
             
             .listStyle(.plain)
             .background(.mainGray)
-            
-            //            NavigationLink(destination: EmptyView()) {
-            //                Text("Empty")
-            //            }
             .safeAreaInset(edge: .bottom) {
                 PlaybackView()
             }
@@ -66,33 +62,34 @@ struct FavoriteView : View {
                         Text("AddEntities")
                     }
                 }
+                
                 ToolbarItem {
                     NavigationLink {
                         AddTrackView()
                     } label: {
-                        Image(systemName: "plus")
+                        Text("Track")
+//                        Image(systemName: "plus")
                     }
                 }
-                ToolbarItem {
-                    NavigationLink {
-                        AddAlbumView()
-                    } label: {
-                        Text("Al")
-                    }
-                }
-                ToolbarItem {
-                    NavigationLink {
-                        AddArtistView()
-                    } label: {
-                        Text("Art")
-                    }
-                }
-                
-                ToolbarItem {
-                    Button ("+Track") {
+//                ToolbarItem {
+//                    NavigationLink {
+//                        AddAlbumView()
+//                    } label: {
+//                        Text("Al")
+//                    }
+//                }
+//                ToolbarItem {
+//                    NavigationLink {
+//                        AddArtistView()
+//                    } label: {
+//                        Text("Art")
+//                    }
+//                }
+//                ToolbarItem {
+//                    Button ("+Track") {
 //                        viewModel.createTrack(title: "New Track 2 ", duration: 100, audioFormat: .mp3, trackCoverData: Data(), isDownloaded: true, isFavourite: true, timeAdded: Date(), timeLastPlayed: Date(), timesPlayed: 10, trackData: Data(), albumName: "New Album 2", artistName: "New Artist 2", genreName: "New Genre 2")
-                    }
-                }
+//                    }
+//                }
             }
         }
         .background(.mainGray)

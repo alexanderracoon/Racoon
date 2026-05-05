@@ -17,7 +17,7 @@ struct PlaybackView: View {
                     Button {
                         playbackManager.playPause()
                     } label: {
-                        Image(systemName: "play.fill")
+                        Image(systemName: playbackManager.isPlaying ? "pause.fill" : "play.fill")
                             .scaledToFill()
                             .font(.system(size: 30))
                     }
@@ -26,6 +26,8 @@ struct PlaybackView: View {
                 .background(.black.opacity(0.95))
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 TrackProgressView(duration: playbackManager.duration, currentTime: playbackManager.currentTime)
+
+//                TrackProgressView(duration: playbackManager.duration, currentTime: playbackManager.currentTime)
             }
             BottomNavigationView()
 //                .aspectRatio(11/3, contentMode: .fit)
@@ -35,29 +37,6 @@ struct PlaybackView: View {
 
 
 
-struct BottomNavigationView: View {
-    var body: some View {
-        HStack {
-            Button {} label: {
-                Image(systemName: "house")
-                    .scaledToFill()
-                    .font(.system(size: 30))
-            }
-            .foregroundStyle(Color.white)
-            Spacer()
-            Button {} label: {
-                Image(systemName: "house")
-                    .scaledToFill()
-                    .font(.system(size: 30))
-            }
-            .foregroundStyle(Color.white)
-        }
-        .padding(10)
-//        .background()
-        .background(LinearGradient(colors: [.black.opacity(0.9), .black.opacity(0.8)], startPoint: .bottom, endPoint: .top))
-//        .clipShape(RoundedRectangle(cornerRadius: 10))
-    }
-}
 
 #Preview {
     PlaybackView()

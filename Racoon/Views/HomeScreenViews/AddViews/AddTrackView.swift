@@ -46,7 +46,7 @@ struct AddTrackView: View {
             self.isTargeted = isTargeted
         }
         VStack{
-            if let musicData = form.trackData {
+            if let _ = form.trackData {
 //                print("musicData: \(musicData)")
                 Image(systemName: "music.note")
                     .resizable()

@@ -27,8 +27,7 @@ class LocalMediaStorage {
         //MARK: Проверка на существование деректорий и т.п
         createDirectoryIfNeeded(for: audioURL)
         //MARK: - Сделать проверку выше
-        let data = Data(capacity: 10000)
-//        guard let data = dataFromView else { fatalError("Data is nil")}
+        guard let data = dataFromView else { fatalError("Data is nil")}
 
         let url = audioURL.appendingPathComponent("\(trackID).\(format.rawValue)")
         print("Url to save audio: \(url.path)")

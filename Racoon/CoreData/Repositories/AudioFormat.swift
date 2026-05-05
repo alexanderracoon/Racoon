@@ -8,7 +8,7 @@
 import Foundation
 
 enum AudioFormat: String, CaseIterable, Codable {
-    case mp3 = "MP3"
+    case mp3 = "mp3"
     case flac = "FLAC"
     case aac = "AAC"
 }
