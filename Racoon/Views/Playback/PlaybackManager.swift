@@ -30,6 +30,7 @@ class PlaybackManager {
     /// Запуск нового трека из FavoriteView
     func play(track: Track) {
         currentTrack = track
+        currentTime = 0
         isPlaying = true
         
         guard let url = track.fileURL else {

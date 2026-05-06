@@ -15,7 +15,7 @@ struct FavoriteView : View {
     var body: some View {
         VStack(alignment: .leading){
 //            Button ("Add Track") {
-//                viewModel.createTrack(title: "New Track 2 ", duration: 100, audioFormat: .mp3, isDownloaded: true, isFavourite: true, timeAdded: Date(), timeLastPlayed: Date(), timesPlayed: 10, albumName: "New Album 2", artistName: "New Artist 2", genreName: "New Genre 2")
+//                viewModel.createTrack(title: "New Track 2 ", duration: 100, audioFormat: .mp3, isDownloaded: true, isFavourite: true, timeAdded: Date(), timeLastPlayed: Date(), timesPlayed: 10, albumTitle: "New Album 2", artistName: "New Artist 2", genreName: "New Genre 2")
 //            }
 
             Text("Favourites")
@@ -37,10 +37,10 @@ struct FavoriteView : View {
                         }
                     }
                     
-                    //                    .onTapGesture {
-                    //                        print("Tap \(track.title ?? "Untitled")")
-                    //                        playbackManager.play(track: track)
-                    //                    }
+//                    .onTapGesture {
+//                        print("Tap \(track.title ?? "Untitled")")
+//                        playbackManager.play(track: track)
+//                    }
                     
                     .background(.mainGray)
                     .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
@@ -87,7 +87,7 @@ struct FavoriteView : View {
 //                }
 //                ToolbarItem {
 //                    Button ("+Track") {
-//                        viewModel.createTrack(title: "New Track 2 ", duration: 100, audioFormat: .mp3, trackCoverData: Data(), isDownloaded: true, isFavourite: true, timeAdded: Date(), timeLastPlayed: Date(), timesPlayed: 10, trackData: Data(), albumName: "New Album 2", artistName: "New Artist 2", genreName: "New Genre 2")
+//                        viewModel.createTrack(title: "New Track 2 ", duration: 100, audioFormat: .mp3, trackCoverData: Data(), isDownloaded: true, isFavourite: true, timeAdded: Date(), timeLastPlayed: Date(), timesPlayed: 10, trackData: Data(), albumTitle: "New Album 2", artistName: "New Artist 2", genreName: "New Genre 2")
 //                    }
 //                }
             }

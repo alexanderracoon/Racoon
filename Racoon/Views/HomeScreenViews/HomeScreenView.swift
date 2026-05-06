@@ -16,7 +16,9 @@ struct HomeScreenView: View {
                 HomeScreenTopView()
                 
                 HomeScreenRecentGridView()
-                NavigationLink(destination: ImageDropView()) {
+                NavigationLink {
+                    ImageDropView()
+                } label: {
                     Text("Drop Image")
                 }
                 
