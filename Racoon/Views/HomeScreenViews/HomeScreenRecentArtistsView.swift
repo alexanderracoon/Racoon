@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+///Карусель недавних артистов на главном экране
 struct HomeScreenRecentArtistsView : View {
     var body: some View {
         VStack{

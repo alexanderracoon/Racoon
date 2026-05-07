@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+///Миниплеер снизу экрана
 struct PlaybackView: View {
     @Environment(PlaybackManager.self) private var playbackManager : PlaybackManager
 
@@ -34,6 +35,8 @@ struct PlaybackView: View {
         }
     }
 }
+
+
 
 
 

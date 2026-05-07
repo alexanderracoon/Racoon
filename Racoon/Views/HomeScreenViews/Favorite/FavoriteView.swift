@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-
+///Любимые треки
 struct FavoriteView : View {
     @Environment(ViewModel.self) private var viewModel: ViewModel
     @Environment(PlaybackManager.self) private var playbackManager : PlaybackManager
@@ -27,7 +27,7 @@ struct FavoriteView : View {
                 .padding(.leading, 10)
             List{
                 ForEach(viewModel.tracks) { track in
-                    TrackViewInList(title: track.title ?? "Untitled", artist: track.artists.first?.name ?? "Blank Artist", imageURL: track.cover) {
+                    TrackViewInList(title: track.title, artist: track.artists.first?.name, imageURL: track.cover) {
                         Button {
                             print(track.artists.first?.name ?? "Blank Name")
                             playbackManager.play(track: track)

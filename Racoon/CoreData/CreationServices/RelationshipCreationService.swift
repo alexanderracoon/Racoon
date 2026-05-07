@@ -5,7 +5,7 @@
 //  Created by Александр Переславцев on 01.05.2026.
 //
 
-
+///Создаёт связи
 class RelationshipCreationService {
     func addRelationship() {
         

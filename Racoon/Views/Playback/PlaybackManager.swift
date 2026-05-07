@@ -7,6 +7,7 @@
 
 import Foundation
 
+///ViewModel для проигрываемого трека
 @Observable
 class PlaybackManager {
 //    var trackTitle = "Track Title"

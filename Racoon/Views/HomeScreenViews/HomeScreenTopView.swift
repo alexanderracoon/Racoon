@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+///Голова главного экрана с автаркой
 struct HomeScreenTopView: View {
     var body: some View {
         HStack {

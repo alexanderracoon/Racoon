@@ -8,14 +8,24 @@
 import SwiftUI
 
 
+///Вью с картинкой, названием, именем артиста у трека
 struct TrackViewInList<ActionButtonsView>: View where ActionButtonsView: View {
     @ViewBuilder var actionButtonsView: () -> ActionButtonsView
     
-    init(title trackTitle: String, artist artistName: String,imageURL: URL? = nil , actionButtonsView: @escaping () -> ActionButtonsView = { EmptyView() } ) {
+    init(title trackTitle: String?, artist artistName: String?, imageURL: URL? = nil , actionButtonsView: @escaping () -> ActionButtonsView = { EmptyView() } ) {
         self.actionButtonsView = actionButtonsView
-        self.trackTitle = trackTitle
-        self.artistName = artistName
-        self.imageURL = imageURL
+        if let trackTitle = trackTitle {
+            self.trackTitle = trackTitle
+        } else {
+            self.trackTitle = "Blank track title"
+        }
+        if let artistName = artistName{
+            self.artistName = artistName
+        } else { self.artistName = "Blank artist name"}
+        
+        if let imageURL = imageURL {
+            self.imageURL = imageURL
+        } else { self.imageURL = nil }
     }
     
     var trackTitle: String = "Title"

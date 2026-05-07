@@ -1,34 +1,13 @@
 //
-//  CreateAlbumView.swift
+//  ImageDropView.swift
 //  Racoon
 //
-//  Created by Александр Переславцев on 25.04.2026.
+//  Created by Александр Переславцев on 06.05.2026.
 //
 
 import SwiftUI
 
-struct CreateAlbumView: View {
-    @Environment(ViewModel.self) private var viewModel: ViewModel
-
-    struct AlbumBlankForm {
-        var cover: Image = Image(.sh2AlbumCover)
-        var releaseDate: Date = .now
-        var title: String = "Blank Album"
-        var artists: [Artist] = []
-        var tracks: [Track] = []
-    }
-    
-    @State var form = AlbumBlankForm()
-    
-    var body: some View {
-        Form {
-            
-            TextField("Title", text: $form.title)
-            DatePicker("Release Date", selection: $form.releaseDate, displayedComponents: .date)
-        }
-    }
-}
-
+///Тест для картинки
 struct ImageDropView: View {
     @State private var imageURL: URL?
     @State private var isTargeted = false
@@ -70,11 +49,4 @@ struct ImageDropView: View {
         let localStorage = LocalMediaStorage()
         return localStorage.saveImage(data: data)
     }
-}
-
-#Preview {
-    VStack {
-        ImageDropView()
-    }
-    
 }

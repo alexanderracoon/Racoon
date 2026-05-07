@@ -14,6 +14,11 @@ extension Album {
         set { artists_ = newValue as NSSet }
     }
     
+    var tracks: Set<Track> {
+        get { (tracks_ as? Set<Track>) ?? [] }
+        set { tracks_ = newValue as NSSet }
+    }
+    
     func addToArtists(_ value: Artist) { self.addToArtists_(value) }
     
     func addToTracks(_ value: Track) { self.addToTracks_(value) }

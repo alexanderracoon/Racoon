@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+///Экран выбора создания сущностей
 struct AddEntitiesView: View {
     var body: some View {
         NavigationLink("AddTrack") {

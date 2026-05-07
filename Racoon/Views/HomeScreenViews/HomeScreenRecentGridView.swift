@@ -7,7 +7,7 @@
 
 import SwiftUI
 
-
+///Верхние кнопки на главном экране
 struct HomeScreenRecentGridView: View {
 //    var gridItems = ["Favorite", "History", "New Album", "New EP", "New Single", "New Podcast"]
     

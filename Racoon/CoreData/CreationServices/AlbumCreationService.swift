@@ -7,6 +7,7 @@
 
 import Foundation
 
+///Создаёт Альбом и связи с артистом и треком
 class AlbumCreationService {
     private let stack: CoreDataStackProtocol
     private let albumRepository: AlbumRepositoryProtocol

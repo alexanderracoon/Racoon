@@ -28,6 +28,7 @@
         <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
         <attribute name="isDownloaded" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="isFavourite" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="releaseDate" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="timeAdded" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="timeLastPlayed" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="timesPlayed" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>

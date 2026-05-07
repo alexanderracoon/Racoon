@@ -8,6 +8,7 @@
 
 import AVFoundation
 
+///Объект Аудиодвижка
 final class AudioEnginePlayer {
     // node.Play() когда есть материал для вспроизведения (scheduleFile)
     // scheduleFile ставить в очередь, но не начинает вспроизведение

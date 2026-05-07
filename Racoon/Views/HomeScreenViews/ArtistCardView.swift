@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+///Карточка артиста на главном экране
 struct ArtistCardView: View {
     let artistName: String = "Linkin Park"
     let artistImageName: String = "LPBand"

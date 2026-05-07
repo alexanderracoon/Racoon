@@ -6,6 +6,7 @@
 //
 import SwiftUI
 
+///Пррогресс проигрывания песни
 struct TrackProgressView: View {
     //MARK: - Заглушка
     var duration: Double = 100

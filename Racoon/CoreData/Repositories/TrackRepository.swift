@@ -28,6 +28,7 @@ class TrackRepository: TrackRepositoryProtocol {
         audioFormat: AudioFormat = .mp3,
         isDownloaded: Bool = false,
         isFavourite: Bool = true,
+        releaseDate: Date = .distantPast,
         timeAdded: Date = Date(),
         timeLastPlayed: Date = Date(),
         timesPlayed: Int32 = 0,) -> Track {
@@ -40,6 +41,7 @@ class TrackRepository: TrackRepositoryProtocol {
             track.format = audioFormat
             track.isDownloaded = isDownloaded
             track.isFavourite = isFavourite
+            track.releaseDate = releaseDate
             track.timeAdded = timeAdded
             track.timeLastPlayed = timeLastPlayed
             track.timesPlayed = timesPlayed

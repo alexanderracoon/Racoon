@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+///Карусель из альбомов на главном экране
 struct HomeScreenRecentAlbumsView: View {
     @Environment(ViewModel.self) private var viewModel: ViewModel
 
@@ -18,7 +19,7 @@ struct HomeScreenRecentAlbumsView: View {
                 HStack(spacing: 10) {
                     ForEach(viewModel.albums, id: \.self) { album in
                         NavigationLink {
-                            EmptyView()
+                            AlbumView(album: album)
                         } label: {
                             AlbumCardView(albumImageURL: album.cover, albumTitle: album.title, authorName: album.artists.first?.name)
                                 .aspectRatio(3/4, contentMode: .fill)

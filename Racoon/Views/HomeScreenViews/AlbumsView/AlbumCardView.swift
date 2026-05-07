@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+///Карточка альбома на главном экране
 struct AlbumCardView: View {
     let albumImageName: String = "SH2AlbumCover"
     let albumTitle: String

@@ -5,9 +5,9 @@
 //  Created by Александр Переславцев on 20.04.2026.
 //
 
-import Foundation
 import SwiftUI
 
+///Экран создания трека
 struct AddTrackView: View {
     @Environment(ViewModel.self) private var viewModel: ViewModel
 
@@ -21,128 +21,131 @@ struct AddTrackView: View {
     var body: some View {
         //        NavigationStack {
         VStack{
-            if let uiImage = UIImage(data: form.trackCoverData ?? Data()) {
-                Image (uiImage: uiImage)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 200, height: 200)
-                    .clipShape (RoundedRectangle(cornerRadius: 16))
-            }
-            else {
-                RoundedRectangle(cornerRadius: 16)
-                    . strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [15]))
-                    .frame(width: 200, height: 200)
-                    .overlay(Text("Drop photo"))
-            }
-        }.dropDestination(for: Data.self) { items, _ in
-            guard let data = items.first else { return false }
-            form.trackCoverData = data
-            //MARK: - перенести из View
-//            if let url = saveImage(data: data) {
-//                imageURL = url
-//            }
-            return true
-        } isTargeted: { isTargeted in
-            self.isTargeted = isTargeted
-        }
-        VStack{
-            if let _ = form.trackData {
-//                print("musicData: \(musicData)")
-                Image(systemName: "music.note")
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 200, height: 200)
-                    .clipShape (RoundedRectangle(cornerRadius: 16))
-            } else {
-                RoundedRectangle(cornerRadius: 16)
-                    . strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [15]))
-                    .frame(width: 200, height: 200)
-                    .overlay(Text("Drop Music File"))
-            }
-        }.dropDestination(for: Data.self) { items, _ in
-            guard let data = items.first else { return false }
-            form.trackData = data
-            return true
-        } isTargeted: { isTargeted in
-            self.isTargetedMusic = isTargeted
-        }
-        
-        GenreSelectionView(selectedGenreIDs: $selectedGenreIDs, genres: viewModel.genres) { id in
-            print("Yes")
-            toggleGenre(id)
-        }
-        
-        Form {
-            Section("Основное") {
-                TextField("Название", text: $form.title)
-                LabeledContent {
-                    TextField("", value: $form.duration, format: .number)
-                        .keyboardType(.decimalPad)
-                        .multilineTextAlignment(.trailing)
-                } label: {
-                    Text("Длительность")
+            VStack{
+                if let uiImage = UIImage(data: form.trackCoverData ?? Data()) {
+                    Image (uiImage: uiImage)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 200, height: 200)
+                        .clipShape (RoundedRectangle(cornerRadius: 16))
                 }
-                
-                Picker("Формат", selection: $form.audioFormat) {
-                    ForEach(AudioFormat.allCases, id: \.self) { format in
-                        Text(format.rawValue).tag(format)
-                    }
+                else {
+                    RoundedRectangle(cornerRadius: 16)
+                        . strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [15]))
+                        .frame(width: 200, height: 200)
+                        .overlay(Text("Drop photo"))
                 }
-                
-                
-                Toggle("Скачан", isOn: $form.isDownloaded)
-                Toggle("Избранное", isOn: $form.isFavourite)
+            }.dropDestination(for: Data.self) { items, _ in
+                guard let data = items.first else { return false }
+                form.trackCoverData = data
+                //MARK: - перенести из View
+                //            if let url = saveImage(data: data) {
+                //                imageURL = url
+                //            }
+                return true
+            } isTargeted: { isTargeted in
+                self.isTargeted = isTargeted
+            }
+            VStack{
+                if let _ = form.trackData {
+                    Image(systemName: "music.note")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 200, height: 200)
+                        .clipShape (RoundedRectangle(cornerRadius: 16))
+                } else {
+                    RoundedRectangle(cornerRadius: 16)
+                        . strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [15]))
+                        .frame(width: 200, height: 200)
+                        .overlay(Text("Drop Music File"))
+                }
+            }.dropDestination(for: Data.self) { items, _ in
+                guard let data = items.first else { return false }
+                form.trackData = data
+                return true
+            } isTargeted: { isTargeted in
+                self.isTargetedMusic = isTargeted
             }
             
-            Section("Время") {
-                DatePicker("Дата добавления", selection: $form.timeAdded, displayedComponents: [.date, .hourAndMinute])
-                DatePicker("Последнее прослушивание", selection: $form.timeLastPlayed, displayedComponents: [.date, .hourAndMinute])
-                LabeledContent {
-                    TextField("", value: $form.timesPlayed, format: .number)
-                        .keyboardType(.numberPad)
-                        .multilineTextAlignment(.trailing)
-                } label: {
-                    Text("Сколько раз проиграно")
-                }
-
+            GenreSelectionView(selectedGenreIDs: $selectedGenreIDs, genres: viewModel.genres) { id in
+                print("Yes")
+                toggleGenre(id)
             }
-//            .listRowBackground(Color.mainGray)
             
-            Section("Связи") {
-                Picker("Album", selection: $form.album) {
-                    Text("None").tag(nil as Album?)
-                    ForEach(viewModel.albums, id: \.objectID) { album in
-                        Text(album.title ?? "No title").tag(album)
+            Form {
+                Section("Основное") {
+                    TextField("Название", text: $form.title)
+                    LabeledContent {
+                        TextField("", value: $form.duration, format: .number)
+                            .keyboardType(.decimalPad)
+                            .multilineTextAlignment(.trailing)
+                    } label: {
+                        Text("Длительность")
                     }
-                }
-                Picker("Artist", selection: $form.artist) {
-                    Text("None").tag(nil as Artist?)
-                    ForEach(viewModel.artists) { artist in
-                        Text(artist.name ?? "No name").tag(artist)
+                    
+                    Picker("Формат", selection: $form.audioFormat) {
+                        ForEach(AudioFormat.allCases, id: \.self) { format in
+                            Text(format.rawValue).tag(format)
+                        }
                     }
+                    
+                    
+                    Toggle("Скачан", isOn: $form.isDownloaded)
+                    Toggle("Избранное", isOn: $form.isFavourite)
                 }
-//                TextField("Альбом", text: $form.albumName)
-//                TextField("Исполнитель", text: $form.artistName)
-                TextField("Жанр", text: $form.genreName)
                 
-//                GenreSelectionView()
+                Section("Время") {
+                    DatePicker("Дата добавления", selection: $form.timeAdded, displayedComponents: [.date, .hourAndMinute])
+                    DatePicker("Дата выхода", selection: $form.releaseDate, displayedComponents: [.date])
+                    DatePicker("Последнее прослушивание", selection: $form.timeLastPlayed, displayedComponents: [.date, .hourAndMinute])
+                    LabeledContent {
+                        TextField("", value: $form.timesPlayed, format: .number)
+                            .keyboardType(.numberPad)
+                            .multilineTextAlignment(.trailing)
+                    } label: {
+                        Text("Сколько раз проиграно")
+                    }
+                    
+                }
+                //            .listRowBackground(Color.mainGray)
+                
+                Section("Связи") {
+                    Picker("Album", selection: $form.album) {
+                        Text("None").tag(nil as Album?)
+                        ForEach(viewModel.albums, id: \.objectID) { album in
+                            Text(album.title ?? "No title").tag(album)
+                        }
+                    }
+                    Picker("Artist", selection: $form.artist) {
+                        Text("None").tag(nil as Artist?)
+                        ForEach(viewModel.artists) { artist in
+                            Text(artist.name ?? "No name").tag(artist)
+                        }
+                    }
+                    //                TextField("Альбом", text: $form.albumName)
+                    //                TextField("Исполнитель", text: $form.artistName)
+                    TextField("Жанр", text: $form.genreName)
+                    
+                    //                GenreSelectionView()
+                }
+                
+                //            Section {
+                //                Button("Создать сущность") {
+                //                    createTrack()
+                //                }
+                //            }
             }
-            
-//            Section {
-//                Button("Создать сущность") {
-//                    createTrack()
-//                }
-//            }
-        }
-        .scrollContentBackground(.hidden)
-//        .background(.mainGray)
-        .toolbar(){
-            Button("Создать трэк") {
-                createTrack(trackData: Data())
+            .scrollContentBackground(.hidden)
+            //        .background(.mainGray)
+            .toolbar(){
+                Button("Создать трэк") {
+                    createTrack(trackData: Data())
+                }
             }
+            //        }
         }
         .navigationTitle(form.title)
-//        }
+        .hideMiniPlayer()
     }
     
     private func toggleGenre(_ id: UUID?) {
@@ -181,6 +184,7 @@ struct TrackDTO {
     var isFavourite: Bool = true
     var timeAdded: Date = .now
     var timeLastPlayed: Date = .now
+    var releaseDate: Date = .distantPast
     var timesPlayed: Int32 = 0
     var trackData: Data? = nil
     var albumName: String = ""

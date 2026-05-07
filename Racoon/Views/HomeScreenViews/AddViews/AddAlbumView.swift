@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+///Экран создания альбома
 struct AddAlbumView: View {
     @Environment(ViewModel.self) private var viewModel: ViewModel
     
@@ -16,54 +17,57 @@ struct AddAlbumView: View {
 
     
     var body: some View {
-        VStack(alignment: .center) {
-            if let uiImage = UIImage(data: form.albumCoverData ?? Data()) {
-                Image (uiImage: uiImage)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 200, height: 200)
-                    .clipShape (RoundedRectangle(cornerRadius: 16))
+        VStack{
+            VStack(alignment: .center) {
+                if let uiImage = UIImage(data: form.albumCoverData ?? Data()) {
+                    Image (uiImage: uiImage)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 200, height: 200)
+                        .clipShape (RoundedRectangle(cornerRadius: 16))
+                }
+                else {
+                    RoundedRectangle(cornerRadius: 16)
+                        .strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [15]))
+                        .frame(width: 200, height: 200)
+                        .overlay(Text("Drop photo"))
+                }
+            }.dropDestination(for: Data.self) { items, _ in
+                guard let data = items.first else { return false }
+                form.albumCoverData = data
+                return true
+            } isTargeted: { isTargeted in
+                self.isTargeted = isTargeted
             }
-            else {
-                RoundedRectangle(cornerRadius: 16)
-                    .strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [15]))
-                    .frame(width: 200, height: 200)
-                    .overlay(Text("Drop photo"))
-            }
-        }.dropDestination(for: Data.self) { items, _ in
-            guard let data = items.first else { return false }
-            form.albumCoverData = data
-            return true
-        } isTargeted: { isTargeted in
-            self.isTargeted = isTargeted
-        }
-        Form {
-            TextField("Название", text: $form.title)
-            
-            DatePicker("Дата добавления", selection: $form.releaseDate, displayedComponents: [.date])
-            
-            Picker("Artist", selection: $form.artist) {
-                Text("None").tag(nil as Artist?)
-                ForEach(viewModel.artists) { artist in
-                    Text(artist.name ?? "No name").tag(artist)
+            Form {
+                TextField("Название", text: $form.title)
+                
+                DatePicker("Дата релиза", selection: $form.releaseDate, displayedComponents: [.date])
+                
+                Picker("Artist", selection: $form.artist) {
+                    Text("None").tag(nil as Artist?)
+                    ForEach(viewModel.artists) { artist in
+                        Text(artist.name ?? "No name").tag(artist)
+                    }
+                }
+                
+                Picker("Track", selection: $form.track) {
+                    Text("None").tag(nil as Track?)
+                    ForEach(viewModel.tracks) { track in
+                        Text(track.title ?? "No title").tag(track)
+                    }
                 }
             }
-            
-            Picker("Track", selection: $form.track) {
-                Text("None").tag(nil as Track?)
-                ForEach(viewModel.tracks) { track in
-                    Text(track.title ?? "No title").tag(track)
+            .scrollContentBackground(.hidden)
+            //        .background(.mainGray)
+            .toolbar(){
+                Button("Создать альбом") {
+                    createAlbum()
                 }
-            }
-        }
-        .scrollContentBackground(.hidden)
-//        .background(.mainGray)
-        .toolbar(){
-            Button("Создать альбом") {
-                createAlbum()
             }
         }
         .navigationTitle(form.title)
+        .hideMiniPlayer()
     }
     
     func createAlbum() {

@@ -7,7 +7,7 @@
 
 import Foundation
 
-
+///Устаревшая версия создания трека
 class SongCreationService {
     private let stack: CoreDataStackProtocol
     private let trackRepository: TrackRepositoryProtocol
@@ -43,6 +43,7 @@ class SongCreationService {
         trackCoverData: Data,
         isDownloaded: Bool,
         isFavourite: Bool,
+        releaseDate: Date,
         timeAdded: Date,
         timeLastPlayed: Date,
         timesPlayed: Int32,
@@ -72,6 +73,7 @@ class SongCreationService {
             audioFormat: audioFormat,
             isDownloaded: isDownloaded,
             isFavourite: isFavourite,
+            releaseDate: releaseDate,
             timeAdded: timeAdded,
             timeLastPlayed: timeLastPlayed,
             timesPlayed: timesPlayed

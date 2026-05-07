@@ -7,6 +7,7 @@
 
 import SwiftUI
 
+///Меню выбора жанров
 struct GenreSelectionView: View {
 //    @Environment(ViewModel.self) private var viewModel
 

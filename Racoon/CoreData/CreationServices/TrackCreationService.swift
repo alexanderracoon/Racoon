@@ -7,6 +7,7 @@
 
 import Foundation
 
+///Создаёт трек и связи с артистом, альбомом, жанрами
 class TrackCreationService {
     private let stack: CoreDataStackProtocol
     private let trackRepository: TrackRepositoryProtocol
@@ -44,6 +45,7 @@ class TrackCreationService {
             audioFormat: trackDTO.audioFormat,
             isDownloaded: trackDTO.isDownloaded,
             isFavourite: trackDTO.isFavourite,
+            releaseDate: trackDTO.releaseDate,
             timeAdded: trackDTO.timeAdded,
             timeLastPlayed: trackDTO.timeLastPlayed,
             timesPlayed: trackDTO.timesPlayed

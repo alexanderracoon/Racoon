@@ -18,6 +18,7 @@ protocol TrackRepositoryProtocol {
         audioFormat: AudioFormat,
         isDownloaded: Bool,
         isFavourite: Bool,
+        releaseDate: Date,
         timeAdded: Date,
         timeLastPlayed: Date,
         timesPlayed: Int32,

@@ -6,6 +6,7 @@
 //
 import SwiftUI
 
+///Нижний бар с навигацией
 struct BottomNavigationView: View {
     var body: some View {
         HStack {
