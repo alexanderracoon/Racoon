@@ -35,7 +35,7 @@ struct HomeScreenView: View {
                 Spacer()
             }
 //            .background(Color.black)
-            .background(.backgroundBlack)
+            .background(.blackBackground)
         }
         .navigationTitle(Text("Home Screen"))
 //        .safeAreaInset(edge: .bottom) {

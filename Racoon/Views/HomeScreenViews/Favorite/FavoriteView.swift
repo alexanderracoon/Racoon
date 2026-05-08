@@ -42,7 +42,7 @@ struct FavoriteView : View {
 //                        playbackManager.play(track: track)
 //                    }
                     
-                    .background(.mainGray)
+                    .background(.grayBackground)
                     .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                 }.onDelete { IndexSet in
                     viewModel.deleteTrack(indexSet: IndexSet)
@@ -50,7 +50,7 @@ struct FavoriteView : View {
             }
             
             .listStyle(.plain)
-            .background(.mainGray)
+            .background(.grayBackground)
             .safeAreaInset(edge: .bottom) {
                 PlaybackView()
             }
@@ -92,7 +92,7 @@ struct FavoriteView : View {
 //                }
             }
         }
-        .background(.mainGray)
+        .background(.grayBackground)
     }
 }
 

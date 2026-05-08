@@ -28,6 +28,7 @@ struct AlbumCardView: View {
     }
     
     var body: some View {
+        
         VStack {
             if let data = try? Data(contentsOf: albumImageURL),
                let uiImage = UIImage(data: data) {

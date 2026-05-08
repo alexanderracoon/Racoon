@@ -19,62 +19,32 @@ struct AddTrackView: View {
     @State private var selectedGenreIDs: Set<UUID> = []
     
     var body: some View {
-        //        NavigationStack {
         VStack{
             VStack{
-                if let uiImage = UIImage(data: form.trackCoverData ?? Data()) {
-                    Image (uiImage: uiImage)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 200, height: 200)
-                        .clipShape (RoundedRectangle(cornerRadius: 16))
+                CoverDropView(coverData: $form.trackCoverData)
+                if let _ = form.trackData { } else {
+                    AudioDropView(audioData: $form.trackData)
                 }
-                else {
-                    RoundedRectangle(cornerRadius: 16)
-                        . strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [15]))
-                        .frame(width: 200, height: 200)
-                        .overlay(Text("Drop photo"))
-                }
-            }.dropDestination(for: Data.self) { items, _ in
-                guard let data = items.first else { return false }
-                form.trackCoverData = data
-                //MARK: - перенести из View
-                //            if let url = saveImage(data: data) {
-                //                imageURL = url
-                //            }
-                return true
-            } isTargeted: { isTargeted in
-                self.isTargeted = isTargeted
             }
-            VStack{
-                if let _ = form.trackData {
-                    Image(systemName: "music.note")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 200, height: 200)
-                        .clipShape (RoundedRectangle(cornerRadius: 16))
-                } else {
-                    RoundedRectangle(cornerRadius: 16)
-                        . strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [15]))
-                        .frame(width: 200, height: 200)
-                        .overlay(Text("Drop Music File"))
-                }
-            }.dropDestination(for: Data.self) { items, _ in
-                guard let data = items.first else { return false }
-                form.trackData = data
-                return true
-            } isTargeted: { isTargeted in
-                self.isTargetedMusic = isTargeted
-            }
+            .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
+            .foregroundStyle(.white)
             
-            GenreSelectionView(selectedGenreIDs: $selectedGenreIDs, genres: viewModel.genres) { id in
-                print("Yes")
-                toggleGenre(id)
-            }
+//            GenreSelectionView(selectedGenreIDs: $selectedGenreIDs, genres: viewModel.genres) { id in
+//                print("Yes")
+//                toggleGenre(id)
+//            }
+//            .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
             
             Form {
+//                Section {
+//                    CoverDropView(coverData: $form.trackCoverData)
+//                    AudioDropView(audioData: $form.trackData)
+//                }
+//                .listRowBackground(Color.trackCreationSectionBackground)
                 Section("Основное") {
-                    TextField("Название", text: $form.title)
+                    TextField(text: $form.title, prompt: Text("Название").foregroundStyle(.grayText)) {
+                        Text("Xexe")
+                    }
                     LabeledContent {
                         TextField("", value: $form.duration, format: .number)
                             .keyboardType(.decimalPad)
@@ -82,32 +52,34 @@ struct AddTrackView: View {
                     } label: {
                         Text("Длительность")
                     }
-                    
                     Picker("Формат", selection: $form.audioFormat) {
                         ForEach(AudioFormat.allCases, id: \.self) { format in
                             Text(format.rawValue).tag(format)
                         }
                     }
-                    
-                    
                     Toggle("Скачан", isOn: $form.isDownloaded)
                     Toggle("Избранное", isOn: $form.isFavourite)
                 }
+                .foregroundStyle(.white)
+                .listRowBackground(Color.trackCreationSectionBackground)
                 
                 Section("Время") {
                     DatePicker("Дата добавления", selection: $form.timeAdded, displayedComponents: [.date, .hourAndMinute])
                     DatePicker("Дата выхода", selection: $form.releaseDate, displayedComponents: [.date])
+                        .tint(.white)
                     DatePicker("Последнее прослушивание", selection: $form.timeLastPlayed, displayedComponents: [.date, .hourAndMinute])
+                        .tint(.white)
+                        .foregroundStyle(.white)
                     LabeledContent {
                         TextField("", value: $form.timesPlayed, format: .number)
                             .keyboardType(.numberPad)
                             .multilineTextAlignment(.trailing)
+                            .foregroundStyle(.white)
                     } label: {
                         Text("Сколько раз проиграно")
                     }
-                    
                 }
-                //            .listRowBackground(Color.mainGray)
+                .listRowBackground(Color.trackCreationSectionBackground)
                 
                 Section("Связи") {
                     Picker("Album", selection: $form.album) {
@@ -122,28 +94,27 @@ struct AddTrackView: View {
                             Text(artist.name ?? "No name").tag(artist)
                         }
                     }
-                    //                TextField("Альбом", text: $form.albumName)
-                    //                TextField("Исполнитель", text: $form.artistName)
+                    GenreSelectionView(selectedGenreIDs: $selectedGenreIDs,
+                                       genres: viewModel.genres)
+                    { id in
+                        print("Yes")
+                        toggleGenre(id)
+                    }
                     TextField("Жанр", text: $form.genreName)
-                    
-                    //                GenreSelectionView()
                 }
-                
-                //            Section {
-                //                Button("Создать сущность") {
-                //                    createTrack()
-                //                }
-                //            }
+                .listRowBackground(Color.trackCreationSectionBackground)
             }
             .scrollContentBackground(.hidden)
-            //        .background(.mainGray)
+            .background(Color.grayBackground)
+            .tint(.white)
             .toolbar(){
                 Button("Создать трэк") {
                     createTrack(trackData: Data())
                 }
             }
-            //        }
         }
+        .preferredColorScheme(.dark)
+        .background(.grayBackground)
         .navigationTitle(form.title)
         .hideMiniPlayer()
     }
@@ -184,7 +155,7 @@ struct TrackDTO {
     var isFavourite: Bool = true
     var timeAdded: Date = .now
     var timeLastPlayed: Date = .now
-    var releaseDate: Date = .distantPast
+    var releaseDate: Date = .now
     var timesPlayed: Int32 = 0
     var trackData: Data? = nil
     var albumName: String = ""

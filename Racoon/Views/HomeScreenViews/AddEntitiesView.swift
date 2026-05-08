@@ -10,15 +10,19 @@ import SwiftUI
 ///Экран выбора создания сущностей
 struct AddEntitiesView: View {
     var body: some View {
-        NavigationLink("AddTrack") {
-            AddTrackView()
+        VStack{
+            NavigationLink("AddTrack") {
+                AddTrackView()
+            }
+            NavigationLink("AddAlbum") {
+                AddAlbumView()
+            }
+            NavigationLink("AddArtist") {
+                AddArtistView()
+            }
         }
-        NavigationLink("AddAlbum") {
-            AddAlbumView()
-        }
-        NavigationLink("AddArtist") {
-            AddArtistView()
-        }
+        .preferredColorScheme(.dark)
+
     }
 }
 

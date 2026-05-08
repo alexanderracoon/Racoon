@@ -19,27 +19,7 @@ struct AddArtistView: View {
     
     var body: some View {
         VStack {
-            VStack{
-                if let uiImage = UIImage(data: form.artistCoverData ?? Data()) {
-                    Image (uiImage: uiImage)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 200, height: 200)
-                        .clipShape (RoundedRectangle(cornerRadius: 16))
-                }
-                else {
-                    RoundedRectangle(cornerRadius: 16)
-                        . strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [15]))
-                        .frame(width: 200, height: 200)
-                        .overlay(Text("Drop photo"))
-                }
-            }.dropDestination(for: Data.self) { items, _ in
-                guard let data = items.first else { return false }
-                form.artistCoverData = data
-                return true
-            } isTargeted: { isTargeted in
-                self.isTargeted = isTargeted
-            }
+            CoverDropView(coverData: $form.artistCoverData)
             Form {
                 TextField("Название", text: $form.name)
                 
@@ -59,13 +39,16 @@ struct AddArtistView: View {
                 //        }
             }
             .scrollContentBackground(.hidden)
-            //        .background(.mainGray)
+            .background(Color.grayBackground)
+            .tint(.white)
             .toolbar(){
                 Button("Создать артиста") {
                     createArtist(ArtistData: Data())
                 }
             }
         }
+        .preferredColorScheme(.dark)
+        .background(.grayBackground)
         .hideMiniPlayer()
         .navigationTitle(form.name)
     }

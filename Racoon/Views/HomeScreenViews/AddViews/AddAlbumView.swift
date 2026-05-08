@@ -18,27 +18,7 @@ struct AddAlbumView: View {
     
     var body: some View {
         VStack{
-            VStack(alignment: .center) {
-                if let uiImage = UIImage(data: form.albumCoverData ?? Data()) {
-                    Image (uiImage: uiImage)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 200, height: 200)
-                        .clipShape (RoundedRectangle(cornerRadius: 16))
-                }
-                else {
-                    RoundedRectangle(cornerRadius: 16)
-                        .strokeBorder(style: StrokeStyle(lineWidth: 1, dash: [15]))
-                        .frame(width: 200, height: 200)
-                        .overlay(Text("Drop photo"))
-                }
-            }.dropDestination(for: Data.self) { items, _ in
-                guard let data = items.first else { return false }
-                form.albumCoverData = data
-                return true
-            } isTargeted: { isTargeted in
-                self.isTargeted = isTargeted
-            }
+            CoverDropView(coverData: $form.albumCoverData)
             Form {
                 TextField("Название", text: $form.title)
                 
@@ -59,13 +39,16 @@ struct AddAlbumView: View {
                 }
             }
             .scrollContentBackground(.hidden)
-            //        .background(.mainGray)
+            .background(Color.grayBackground)
+            .tint(.white)
             .toolbar(){
                 Button("Создать альбом") {
                     createAlbum()
                 }
             }
         }
+        .preferredColorScheme(.dark)
+        .background(.grayBackground)
         .navigationTitle(form.title)
         .hideMiniPlayer()
     }

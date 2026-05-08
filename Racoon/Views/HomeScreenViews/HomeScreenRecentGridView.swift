@@ -48,7 +48,7 @@ struct HomeScreenRecentGridView: View {
                     }
                     .background(
                         RoundedRectangle(cornerRadius: 5)
-                            .fill(Color.mainGray)
+                            .fill(.grayBackground)
                     )
                 }
                 .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
