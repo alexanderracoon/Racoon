@@ -19,7 +19,6 @@ final class AudioEnginePlayer {
     // Без engine node.Play() не сработает
     // node.Pause() останавливает ноду, сохраняя состояние
     // node.Stop() очищает schedule и останавливает вспроизведение
-    //
     // node.Stop() Вызывать при нажатии из FavoriteView, чтобы очитстить очередь
     // node.Pause() При вызове из PlabackView, чтобы поставить на паузу текущий трек
     // node.Play() Продолжает воспроизведение
@@ -28,6 +27,7 @@ final class AudioEnginePlayer {
     private let playerNode = AVAudioPlayerNode()
     
     private var audioFile: AVAudioFile?
+    var progress: Double = 0
     
     init() {
         setupEngine()
@@ -60,7 +60,7 @@ final class AudioEnginePlayer {
     }
     
     /// Включение нового трека
-    func play(url: URL) {
+    func play(new url: URL) {
         load(url: url)
         guard let file = audioFile else { return }
         
@@ -87,19 +87,6 @@ final class AudioEnginePlayer {
         playerNode.play()
     }
     
-    // Воспроизведение
-    func play_old() {
-        guard let file = audioFile else { return }
-        
-        playerNode.stop()
-        
-        //The callback notifies your app when playback completes.
-        playerNode.scheduleFile(file, at: nil) {
-            /* Handle any work that's necessary after playback. */
-        }
-        
-        playerNode.play()
-    }
     
     /// Пауза для текущей ноды
     func pause() {
@@ -109,5 +96,26 @@ final class AudioEnginePlayer {
     /// Стоп для текущей ноды
     func stop() {
         playerNode.stop()
+    }
+    
+    ///Текущее время
+    func currentTime() -> Double {
+        guard
+            let nodeTime = playerNode.lastRenderTime,
+            let playerTime = playerNode.playerTime(forNodeTime: nodeTime)
+        else { return 0 }
+
+        return Double(playerTime.sampleTime) / playerTime.sampleRate
+    }
+    
+    ///Длительность трека
+    func duration(url: URL) -> Double? {
+        do {
+            let file = try AVAudioFile(forReading: url)
+            return Double(file.length) / file.processingFormat.sampleRate
+        } catch {
+            print(error)
+            return nil
+        }
     }
 }

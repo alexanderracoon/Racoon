@@ -12,24 +12,31 @@ import Foundation
 class PlaybackManager {
 //    var trackTitle = "Track Title"
 //    var artistName = "Artist Name"
-//    var duration: Double = 100
     var currentTime: Double = 0
+    var duration: Double = 100
+    var progress: Double { currentTime / duration}
     //currentTrack не нужен?
     var currentTrack: Track?
     var isPlaying: Bool = true
     
     let player = AudioEnginePlayer()
     
-    //MARK: - Player
-    func startPlayer(url: URL?) {
-        if let url = url {
-            print(url)
-            player.play(url: url)
-        } else { print("WrongURL") }
-    }
+    private var progressTimer: Timer?
     
-    /// Запуск нового трека из FavoriteView
+    
+    //MARK: - Player
+    ///Запуск нового трека
     func play(track: Track) {
+        if currentTrack == track {
+            print("Play - \(track.title ?? "Unknown track")")
+            playPause()
+            return
+        }
+//        guard currentTrack == track else {
+//            playPause()
+//            return
+//        }
+        
         currentTrack = track
         currentTime = 0
         isPlaying = true
@@ -39,11 +46,11 @@ class PlaybackManager {
         }
         
         print(url)
-        player.play(url: url)
-        
-        startPlayer(url: track.fileURL)
-        player.play()
+        player.play(new: url)
+        duration = player.duration(url: url) ?? 0
+        startProgressTimer()
     }
+
     
     func resume() { player.play() }
     
@@ -51,40 +58,22 @@ class PlaybackManager {
     
     //MARK: - Playback
     
-//    func play_old(track: Track) {
-//        currentTrack = track
-//        isPlaying = true
-//        startPlayer(url: track.fileURL)
-//        //MARK: Плеер
-//    }
-    
-//    func play(track: Track) {
-//        guard let url = track.fileURL else { return }
-//        
-//        currentTrack = track
-//        
-//        player.load(url: url)
-//        player.play()
-//        
-//        isPlaying = true
-//    }
-    
     func playPause() {
         print("Play/Pause \(currentTrack?.title ?? "Unknown track")")
-//        if duration == 0 {}
+        if currentTrack == nil { return }
         if isPlaying {
             pause()
+            stopProgressTimer()
         } else {
             resume()
+            startProgressTimer()
         }
-        currentTime += 10
         isPlaying.toggle()
-//        currentTime = { Double.random(in: 0..<100) }()
     }
     
-    var duration: Double {
-        currentTrack?.duration ?? 100
-    }
+//    var duration: Double {
+//        currentTrack?.duration ?? 100
+//    }
     
     
     var playingTitle: String {
@@ -107,5 +96,33 @@ class PlaybackManager {
     var playingTrackCover: URL? {
         guard let currentTrack else { return nil }
         return currentTrack.cover
+    }
+    
+    //MARK: - Работа с таймером
+    ///Создание и старт таймера  таймера
+    func startProgressTimer() {
+        progressTimer?.invalidate()
+        
+        progressTimer = Timer.scheduledTimer(
+            withTimeInterval: 0.1,
+            repeats: true,
+            block: { [weak self] _ in
+                guard let self else { return }
+                self.currentTime = self.player.currentTime()
+                print("currentTime - \(currentTime) \n duration - \(duration) \n progress - \(progress)")
+                if currentTime / duration >= 1 {
+                    print("PROGRESS = 1")
+                    pause()
+                    currentTrack = nil
+                    stopProgressTimer()
+                }
+            }
+        )
+    }
+    
+    ///Остановка таймера
+    func stopProgressTimer() {
+        progressTimer?.invalidate()
+        progressTimer = nil
     }
 }

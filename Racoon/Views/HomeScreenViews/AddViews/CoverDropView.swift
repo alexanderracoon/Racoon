@@ -6,6 +6,7 @@
 //
 import SwiftUI
 
+///Вью для Drag & Drop фото
 struct CoverDropView: View {
     @Binding var coverData: Data?
     @State var isTargeted: Bool = false

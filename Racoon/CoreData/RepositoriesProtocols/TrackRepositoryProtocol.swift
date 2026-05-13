@@ -21,12 +21,7 @@ protocol TrackRepositoryProtocol {
         releaseDate: Date,
         timeAdded: Date,
         timeLastPlayed: Date,
-        timesPlayed: Int32,
-//        albumName: String?,
-//        album: Album?,
-//        artistName: String?,
-//        artist: Artist?,
-//        genresNames: [String],
+        timesPlayed: Int32
     ) -> Track
     func fetchAll() throws -> [Track]
     func fetch(id: UUID) throws -> Track?

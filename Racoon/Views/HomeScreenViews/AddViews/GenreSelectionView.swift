@@ -34,51 +34,5 @@ struct GenreSelectionView: View {
                 }
             }
         }
-//        }
     }
-//    private func toggleGenre(_ id: UUID?) {
-//        if let id = id {
-//            if selectedGenreIDs.contains(id) {
-//                selectedGenreIDs.remove(id)
-//            } else {
-//                selectedGenreIDs.insert(id)
-//            }
-//        } else {
-//            print("Toggle genre with nil id")
-//        }
-//    }
-}
-
-struct GenreSelectionButtonView: View {
-    let title: String?
-    let isSelected: Bool
-    let action: () -> Void
-    
-    init(title: String?, isSelected: Bool = true, _ action: @escaping () -> Void = { }) {
-        self.title = title
-        self.isSelected = isSelected
-        self.action = action
-    }
-    
-    var body: some View {
-        Button(action: action) {
-            Text(title ?? "Genre")
-                .font(.subheadline)
-                .padding(.horizontal, 15)
-                .padding(.vertical, 5)
-                .fixedSize()
-                .background(isSelected ? .green : Color.gray.opacity(0.4))
-                .foregroundStyle(isSelected ? .black : .white)
-                .clipShape(Capsule())
-        }
-        .buttonStyle(.plain)
-    }
-}
-
-
-#Preview {
-//    GenreSelectionView()
-    GenreSelectionButtonView(title: "Title", isSelected: true)
-    GenreSelectionButtonView(title: "Title2", isSelected: false)
-    GenreSelectionButtonView(title: "Title3")
 }

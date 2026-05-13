@@ -28,19 +28,8 @@ struct AddTrackView: View {
             }
             .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
             .foregroundStyle(.white)
-            
-//            GenreSelectionView(selectedGenreIDs: $selectedGenreIDs, genres: viewModel.genres) { id in
-//                print("Yes")
-//                toggleGenre(id)
-//            }
-//            .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
-            
+              
             Form {
-//                Section {
-//                    CoverDropView(coverData: $form.trackCoverData)
-//                    AudioDropView(audioData: $form.trackData)
-//                }
-//                .listRowBackground(Color.trackCreationSectionBackground)
                 Section("Основное") {
                     TextField(text: $form.title, prompt: Text("Название").foregroundStyle(.grayText)) {
                         Text("Xexe")

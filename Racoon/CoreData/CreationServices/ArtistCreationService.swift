@@ -27,6 +27,7 @@ class ArtistCreationService {
         self.mediaStorage = mediaStorage
     }
     
+    ///Создаёт артиста. Устанавливает связи с альбомом и песней
     func create(artistDTO: ArtistDTO) throws -> Void {
         let artistID = UUID()
         let artistCoverPath = mediaStorage.saveArtistCover(data: artistDTO.artistCoverData, artistID: artistID)

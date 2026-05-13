@@ -12,13 +12,14 @@ class TrackCreationService {
     private let stack: CoreDataStackProtocol
     private let trackRepository: TrackRepositoryProtocol
     private let mediaStorage: LocalMediaStorage
+    private let genreRepository: GenreRepositoryProtocol
     
     init(
         stack: CoreDataStackProtocol,
         trackRepository: TrackRepositoryProtocol,
 //        albumRepository: AlbumRepositoryProtocol,
 //        artistRepository: ArtistRepositoryProtocol,
-//        genreRepository: GenreRepositoryProtocol,
+        genreRepository: GenreRepositoryProtocol,
         //MARK: - Protocol?
         mediaStorage: LocalMediaStorage
     ) {
@@ -26,7 +27,7 @@ class TrackCreationService {
         self.trackRepository = trackRepository
 //        self.albumRepository = albumRepository
 //        self.artistRepository = artistRepository
-//        self.genreRepository = genreRepository
+        self.genreRepository = genreRepository
         self.mediaStorage = mediaStorage
     }
     
@@ -51,9 +52,13 @@ class TrackCreationService {
             timesPlayed: trackDTO.timesPlayed
         )
         
-        //MARK: - Жанры поправить
-        let genre = GenreRepository(coreDataStack: stack).create(id: UUID(), name: trackDTO.genreName)
-
+        //MARK: - Жанры
+        var genre: Genre? = nil
+        
+        if trackDTO.genreName.count > 1 {
+            genre = genreRepository.create(id: UUID(), name: trackDTO.genreName)
+        }
+        
         let genres = trackDTO.genres
         
         //MARK: - Relationships

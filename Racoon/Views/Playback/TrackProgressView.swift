@@ -17,21 +17,23 @@ struct TrackProgressView: View {
     var body: some View {
         HStack(alignment: .bottom){
             GeometryReader { geometry in
-                if duration > 0 {
-                    let scale: CGFloat = currentTime/duration
-                    ZStack(alignment: .leading) {
-                        Capsule()
-                            .foregroundStyle(.gray)
-                        Capsule()
-                            .foregroundStyle(
-                                LinearGradient(colors: [.blue, .cyan], startPoint: .leading, endPoint: .trailing)
-                            )
-                            .frame(width: geometry.size.width *
-                                   ( scale <= 1 ? scale : 0.9 ) )
-                            .animation(.easeInOut(duration: 0.5), value: currentTime)
-                    }
-                    .frame(maxWidth: geometry.size.width, maxHeight: 5)
+//                if duration > 0 {
+//                let scale: CGFloat = currentTime/duration
+                ZStack(alignment: .leading) {
+                    Capsule()
+                        .foregroundStyle(.gray)
+                    Capsule()
+                        .foregroundStyle(
+                            LinearGradient(colors: [.blue, .cyan], startPoint: .leading, endPoint: .trailing)
+                        )
+                        .frame(width: geometry.size.width *
+                               ( progress <= 1 ? progress : 0.05 ) )
+//                        .animation(.easeInOut(duration: 0.5), value: currentTime)
+                        .animation(.easeInOut(duration: 0.5), value: progress)
+
                 }
+                .frame(maxWidth: geometry.size.width, maxHeight: 5)
+//                }
             }
         }
             .frame(maxWidth: .infinity, maxHeight: 5)

@@ -9,11 +9,18 @@ import SwiftUI
 
 
 ///Вью с картинкой, названием, именем артиста у трека
-struct TrackViewInList<ActionButtonsView>: View where ActionButtonsView: View {
-    @ViewBuilder var actionButtonsView: () -> ActionButtonsView
+struct TrackViewInList<ActionButtonsView: View>: View {
+    let actionButtonsView: ActionButtonsView
+    var trackTitle: String = "Title"
+    var artistName: String = "Artist"
+    var imageURL: URL?
     
-    init(title trackTitle: String?, artist artistName: String?, imageURL: URL? = nil , actionButtonsView: @escaping () -> ActionButtonsView = { EmptyView() } ) {
-        self.actionButtonsView = actionButtonsView
+    init(
+        title trackTitle: String?,
+        artist artistName: String?,
+        imageURL: URL? = nil ,
+        @ViewBuilder actionButtonsView: () -> ActionButtonsView = { EmptyView() } ) {
+        self.actionButtonsView = actionButtonsView()
         if let trackTitle = trackTitle {
             self.trackTitle = trackTitle
         } else {
@@ -28,32 +35,32 @@ struct TrackViewInList<ActionButtonsView>: View where ActionButtonsView: View {
         } else { self.imageURL = nil }
     }
     
-    var trackTitle: String = "Title"
-    var artistName: String = "Artist"
-    var imageURL: URL?
-    
     var body: some View {
         HStack {
-            if let url = imageURL,
-               let data = try? Data(contentsOf: url),
-               let uiImage = UIImage(data: data) {
+            VStack{
+                if let url = imageURL,
+                   let data = try? Data(contentsOf: url),
+                   let uiImage = UIImage(data: data) {
                     Image(uiImage: uiImage)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(maxWidth: 45, maxHeight: 45)
-                    .clipped()
-                    .cornerRadius(5)
-                    .padding(10)
-            } else {
-                Image(.sh2AlbumCover)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(maxWidth: 45, maxHeight: 45)
-                    .clipped()
-                    .cornerRadius(5)
-                    .padding(10)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(maxWidth: 45, maxHeight: 45)
+                        .clipped()
+                        .cornerRadius(5)
+                        .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 10))
+                }
+                //MARK: - Доделать или удалить
+                else {
+                    EmptyView()
+//                    Image(.sh2AlbumCover)
+//                        .resizable()
+//                        .scaledToFill()
+//                        .frame(maxWidth: 45, maxHeight: 45)
+//                        .clipped()
+//                        .cornerRadius(5)
+//                        .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 10))
+                }
             }
-            
             VStack(alignment: .leading) {
                 Text(trackTitle)
                     .font(.system(size: 20))
@@ -61,18 +68,15 @@ struct TrackViewInList<ActionButtonsView>: View where ActionButtonsView: View {
                 Text(artistName)
                     .font(.system(size: 20))
                     .foregroundStyle(.grayText)
-
-//                track.title
-//                track.artistsNames
             }
-            
-//            .foregroundStyle(.orange)
+            .padding(0)
             Spacer()
-            actionButtonsView()
-                .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 15))
+            actionButtonsView
+//          .padding(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 15))
         }
-//        .background(.black.opacity(0.95))
-//        .clipShape(RoundedRectangle(cornerRadius: 10))
+//        .frame(maxWidth: .infinity, alignment: .leading)
+        .contentShape(Rectangle())
+        .padding(EdgeInsets(top: 0, leading: 10, bottom: 0, trailing: 10))
     }
 }
 

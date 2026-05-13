@@ -1,4 +1,6 @@
 import SwiftUI
+
+///Вью для Drag & Drop музыкального файла
 struct AudioDropView: View {
     @Binding var audioData: Data?
     @State var isTargeted: Bool = false

@@ -8,6 +8,7 @@
 import Foundation
 import CoreData
 
+///Класс, управляющий сущностью ``Genre`` в CoreData
 class GenreRepository: GenreRepositoryProtocol {
     private let stack: CoreDataStackProtocol
     private let context: NSManagedObjectContext

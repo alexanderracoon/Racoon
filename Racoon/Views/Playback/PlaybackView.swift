@@ -8,6 +8,14 @@
 import SwiftUI
 
 ///Миниплеер снизу экрана
+///
+/// - Parameters:
+///   - style: An instance of a type that conforms to  that
+///     SwiftUI draws behind the modified view.
+///   - edges: The set of edges for which to ignore safe area insets
+///     Specify an empty set to respect safe area insets on all edges. 
+///
+/// - Returns: A view with the specified style drawn behind it.
 struct PlaybackView: View {
     @Environment(PlaybackManager.self) private var playbackManager : PlaybackManager
 
@@ -26,7 +34,8 @@ struct PlaybackView: View {
                 }
                 .background(.black.opacity(0.95))
                 .clipShape(RoundedRectangle(cornerRadius: 10))
-                TrackProgressView(duration: playbackManager.duration, currentTime: playbackManager.currentTime)
+                TrackProgressView(progress: playbackManager.progress)
+//                TrackProgressView(duration: playbackManager.duration, currentTime: playbackManager.currentTime)
 
 //                TrackProgressView(duration: playbackManager.duration, currentTime: playbackManager.currentTime)
             }

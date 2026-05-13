@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-
+///Класс, управляющий сущностью ``Track`` в CoreData
 class TrackRepository: TrackRepositoryProtocol {
     private let stack: CoreDataStackProtocol
     private let context: NSManagedObjectContext

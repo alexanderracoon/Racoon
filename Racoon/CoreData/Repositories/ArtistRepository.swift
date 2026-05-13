@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-
+///Класс, управляющий сущностью ``Artist`` в CoreData
 class ArtistRepository: ArtistRepositoryProtocol {
     private let stack: CoreDataStackProtocol
     private let context: NSManagedObjectContext
@@ -18,7 +18,12 @@ class ArtistRepository: ArtistRepositoryProtocol {
         self.context = coreDataStack.context
     }
     
-    //MARK: - Переписать,чтобы было не нужно? 
+    //MARK: - Переписать,чтобы было не нужно?
+    ///Ищет ``Artist`` по имени. Находит – возвращает, не находит – создаёт артиста с таким именем
+    /// - Parameters:
+    ///     - name: Имя ``Artist``
+    /// - Returns: ``Artist``
+
     func findOrCreate(name: String) -> Artist {
         let request: NSFetchRequest<Artist> = Artist.fetchRequest()
         request.predicate = NSPredicate(format: "name == %@", name)
@@ -32,6 +37,12 @@ class ArtistRepository: ArtistRepositoryProtocol {
     }
     
     //MARK: - Доработать
+    ///Создаёт ``Artist``
+    /// - Parameters:
+    ///     - id: ``UUID``
+    ///     - cover: Путь к файлу с обложкой ``Artist``
+    ///     - name: Имя ``Artist``
+    /// - Returns: ``Artist``
     func create(
         id: UUID,
         cover: URL? = nil,

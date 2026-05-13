@@ -41,7 +41,7 @@ class ViewModel {
         self.artistRepository = ArtistRepository(coreDataStack: stack)
         self.genreRepository = GenreRepository(coreDataStack: stack)
         self.mediaStorage = LocalMediaStorage()
-        self.trackCreationService = TrackCreationService(stack: stack, trackRepository: trackRepository, mediaStorage: mediaStorage)
+        self.trackCreationService = TrackCreationService(stack: stack, trackRepository: trackRepository, genreRepository: genreRepository, mediaStorage: mediaStorage)
         self.artistCreationService = ArtistCreationService(stack: stack, artistRepository: artistRepository, mediaStorage: mediaStorage)
         self.albumCreationService = AlbumCreationService(stack: stack, albumRepository: albumRepository, mediaStorage: mediaStorage)
 //        self.trackCreationService = SongCreationService(
@@ -101,6 +101,7 @@ class ViewModel {
         do {
 //            trackDTO.genres = seceltedGenres
             try trackCreationService.create(trackDTO: trackDTO)
+            print("Load Data")
             loadData()
         } catch let error as NSError {
             print("CoreData saveContext error ", error.localizedDescription)

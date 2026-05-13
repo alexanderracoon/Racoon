@@ -9,39 +9,45 @@ import SwiftUI
 
 ///Корневой экран
 struct HomeScreenView: View {
-    @Environment(PlaybackManager.self) private var playbackManager : PlaybackManager
+    @Environment(ViewModel.self) private var viewModel: ViewModel
+//    @Environment(PlaybackManager.self) private var playbackManager : PlaybackManager
     @State private var isMiniPlayerHidden = false
 
     var body: some View {
         NavigationStack{
-            VStack {
-                
+            ZStack(alignment: .top) {
                 HomeScreenTopView()
-                
-                HomeScreenRecentGridView()
-                NavigationLink {
-                    ImageDropView()
-                } label: {
-                    Text("Drop Image")
+                    .zIndex(1)
+                ScrollView{
+                    HomeScreenRecentGridView()
+                    
+                    HorizontalCardsSection(title: "Recent Albums", data: viewModel.albums) { album in
+                        NavigationLink {
+                            AlbumView(album: album)
+                        } label: {
+                            CardView(imageURL: album.cover, title: album.title, subTitle: album.artists.first?.name)
+                        }
+                    }
+                    
+                    HorizontalCardsSection(title: "Recent Artists", data: viewModel.artists) { artist in
+                        NavigationLink {
+                            ArtistView(artist: artist)
+//                            ArtistView(artist: artist)
+                        } label: {
+                            CardView(imageURL: artist.cover, title: artist.name)
+                        }
+                    }
+                    Spacer()
                 }
-                
-                HomeScreenRecentAlbumsView()
-//                    .aspectRatio(1.9, contentMode: .fit)
-                
-                HomeScreenRecentArtistsView()
-                
-                    .foregroundStyle(.blue)
-                
-                Spacer()
+                .scrollIndicators(.hidden)
+                .padding(.top, 50)
             }
-//            .background(Color.black)
             .background(.blackBackground)
         }
         .navigationTitle(Text("Home Screen"))
 //        .safeAreaInset(edge: .bottom) {
 //            PlaybackView()
 //        }
-        .background(Color.black)
         .onPreferenceChange(MiniPlayerHiddenKey.self) { hidden in
             isMiniPlayerHidden = hidden
         }

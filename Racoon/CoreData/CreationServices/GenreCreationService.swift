@@ -7,6 +7,8 @@
 
 import Foundation
 
+///Заглушка
+///Создаёт жанр и связи с  треком
 class GenreCreationService {
     private let stack: CoreDataStackProtocol
     private let genreRepository: GenreRepositoryProtocol

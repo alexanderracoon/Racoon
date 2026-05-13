@@ -20,20 +20,3 @@ protocol ArtistRepositoryProtocol {
     func delete(id: UUID)
     func delete(_ artist: Artist)
 }
-
-//protocol ArtistRepositoryProtocol: RepositoryProtocol where Entity == Artist {
-//    func create(
-//        cover: URL?,
-//        name: String) -> Artist
-//    func findOrCreate(name: String) -> Artist
-//}
-//
-//protocol RepositoryProtocol {
-//    associatedtype Entity
-//    
-//    func fetchAll() throws -> [Entity]
-//    func fetch(id: UUID) throws -> Entity?
-//    func update(_ entity: Entity)
-//    func delete(id: UUID)
-//}
-

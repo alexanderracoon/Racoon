@@ -8,7 +8,7 @@
 import Foundation
 import CoreData
 
-
+///Класс, управляющий сущностью ``Album`` в CoreData
 class AlbumRepository: AlbumRepositoryProtocol {
     private let stack: CoreDataStackProtocol
     private let context: NSManagedObjectContext
