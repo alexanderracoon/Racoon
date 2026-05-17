@@ -6,24 +6,31 @@
 //
 
 import Foundation
+import SwiftUI
 
 ///ViewModel для проигрываемого трека
 @Observable
 class PlaybackManager {
-//    var trackTitle = "Track Title"
-//    var artistName = "Artist Name"
     var currentTime: Double = 0
     var duration: Double = 100
-    var progress: Double { currentTime / duration}
-    //currentTrack не нужен?
-    var currentTrack: Track?
     var isPlaying: Bool = true
+    var backgroundColor: Color = .black
     
-    let player = AudioEnginePlayer()
+    var progress: Double {
+        guard duration > 0 else { return 0 }
+        return min(currentTime / duration, 1)
+    }
     
+    private let player = AudioEnginePlayer()
     private var progressTimer: Timer?
     
-    
+    var currentTrack: Track? {
+        didSet {
+            updateColor()
+        }
+    }
+
+
     //MARK: - Player
     ///Запуск нового трека
     func play(track: Track) {
@@ -32,10 +39,6 @@ class PlaybackManager {
             playPause()
             return
         }
-//        guard currentTrack == track else {
-//            playPause()
-//            return
-//        }
         
         currentTrack = track
         currentTime = 0
@@ -57,7 +60,6 @@ class PlaybackManager {
     func pause() { player.pause() }
     
     //MARK: - Playback
-    
     func playPause() {
         print("Play/Pause \(currentTrack?.title ?? "Unknown track")")
         if currentTrack == nil { return }
@@ -101,20 +103,28 @@ class PlaybackManager {
     //MARK: - Работа с таймером
     ///Создание и старт таймера  таймера
     func startProgressTimer() {
-        progressTimer?.invalidate()
+        stopProgressTimer()
         
         progressTimer = Timer.scheduledTimer(
             withTimeInterval: 0.1,
             repeats: true,
             block: { [weak self] _ in
                 guard let self else { return }
+                
                 self.currentTime = self.player.currentTime()
+                
+                
                 print("currentTime - \(currentTime) \n duration - \(duration) \n progress - \(progress)")
-                if currentTime / duration >= 1 {
+                guard self.duration > 0 else { return }
+
+                
+                if self.currentTime >= self.duration  {
                     print("PROGRESS = 1")
                     pause()
-                    currentTrack = nil
                     stopProgressTimer()
+                    self.currentTime = 0
+                    self.isPlaying = false
+                    currentTrack = nil
                 }
             }
         )
@@ -124,5 +134,15 @@ class PlaybackManager {
     func stopProgressTimer() {
         progressTimer?.invalidate()
         progressTimer = nil
+    }
+    
+    //MARK: - функции для переменных
+    private func updateColor() {
+        guard let url = currentTrack?.cover else {
+            backgroundColor = .green
+            return
+        }
+        
+        backgroundColor = ImageColorExtractor.averageColor(from: url) ?? .blue
     }
 }

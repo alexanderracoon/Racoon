@@ -37,30 +37,34 @@ struct TrackViewInList<ActionButtonsView: View>: View {
     
     var body: some View {
         HStack {
-            VStack{
-                if let url = imageURL,
-                   let data = try? Data(contentsOf: url),
-                   let uiImage = UIImage(data: data) {
-                    Image(uiImage: uiImage)
-                        .resizable()
-                        .scaledToFill()
-                        .frame(maxWidth: 45, maxHeight: 45)
-                        .clipped()
-                        .cornerRadius(5)
-                        .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 10))
-                }
-                //MARK: - Доделать или удалить
-                else {
-                    EmptyView()
-//                    Image(.sh2AlbumCover)
+            ImageFromData(url: imageURL)
+                .frame(maxWidth: 45, maxHeight: 45)
+                .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 10))
+
+//            VStack{
+//                if let url = imageURL,
+//                   let data = try? Data(contentsOf: url),
+//                   let uiImage = UIImage(data: data) {
+//                    Image(uiImage: uiImage)
 //                        .resizable()
 //                        .scaledToFill()
 //                        .frame(maxWidth: 45, maxHeight: 45)
 //                        .clipped()
 //                        .cornerRadius(5)
 //                        .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 10))
-                }
-            }
+//                }
+//                //MARK: - Доделать или удалить
+//                else {
+//                    EmptyView()
+////                    Image(.sh2AlbumCover)
+////                        .resizable()
+////                        .scaledToFill()
+////                        .frame(maxWidth: 45, maxHeight: 45)
+////                        .clipped()
+////                        .cornerRadius(5)
+////                        .padding(EdgeInsets(top: 10, leading: 0, bottom: 10, trailing: 10))
+//                }
+//            }
             VStack(alignment: .leading) {
                 Text(trackTitle)
                     .font(.system(size: 20))

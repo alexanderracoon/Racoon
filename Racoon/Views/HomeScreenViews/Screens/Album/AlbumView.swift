@@ -33,6 +33,10 @@ struct AlbumView: View {
         return Double(min(max(result, 0), 1))
     }
     
+    private var colorFromImage: Color {
+        ImageColorExtractor.averageColor(from: coverURL) ?? .blue
+    }
+    
     init(album: Album) {
         self.album = album
         if let title = album.title { self.title = title } else {
@@ -47,10 +51,20 @@ struct AlbumView: View {
         ZStack(alignment: .top){
             ScrollView {
                 VStack(spacing: 0) {
-                    ImageFromData(url: coverURL)
+                    ZStack(alignment: .bottom){
+                        Rectangle()
+                            .foregroundStyle(colorFromImage)
+                        VStack{
+                            ImageFromData(url: coverURL)
+                                .frame(maxWidth: 250, maxHeight: 250)
+                            
+                            Text("Title - \(title)")
+                            Text("Artist Name - \(artistName)")
+                        }
+                        .padding(.top, 60)
+                    }
+                    .ignoresSafeArea(edges: .top)
                     
-                    Text("Title - \(title)")
-                    Text("Artist Name - \(artistName)")
                     LazyVStack(spacing: 0) {
                         ForEach(tracks) { track in
                             TrackViewInList(
@@ -73,10 +87,8 @@ struct AlbumView: View {
                                     print(track.artists.first?.name ?? "Blank Name")
                                     playbackManager.play(track: track)
                                 }
-                                .background(.grayBackground)
                                 .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
                         }
-                        
                         .sheet(item: $selectedTrack) {
                             print("OnDismissed")
                         } content: { track in
@@ -94,7 +106,6 @@ struct AlbumView: View {
                         }
                     }
                 }
-                .padding(.top, 60)
             }
             .onScrollGeometryChange(for: CGFloat.self) { geometry in
                 geometry.contentOffset.y
@@ -103,11 +114,9 @@ struct AlbumView: View {
                 print(topBarOpacity)
                 scrollY = max(0, newValue)
             }
-        
             topBarView
         }
         .ignoresSafeArea(edges: .top)
-//        .toolbar(.hidden, for: .navigationBar)
         .toolbarBackground(.hidden, for: .navigationBar)
         .ignoresSafeArea(edges: .top)
         .background(.grayBackground)
@@ -118,7 +127,9 @@ struct AlbumView: View {
     var topBarView: some View {
         
         Rectangle()
-            .fill(.blackBackground.opacity(topBarOpacity))
+            .fill(LinearGradient(colors: [colorFromImage, .grayBackground], startPoint: .top, endPoint: .bottom))
+            .opacity(topBarOpacity)
+//            .fill(colorFromImage.opacity(topBarOpacity))
             .frame(height: 100)
             .overlay(alignment: .center) {
                 Text(album.title ?? "Album")

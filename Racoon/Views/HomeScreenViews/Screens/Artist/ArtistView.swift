@@ -26,6 +26,7 @@ struct ArtistView: View {
     var body: some View {
         ScrollView{
             ImageFromData(url: artist.cover)
+                .frame(maxWidth: 250, maxHeight: 250)
             
             LazyVStack {
                 ForEach(tracks) { track in

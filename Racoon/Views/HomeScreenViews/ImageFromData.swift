@@ -9,21 +9,38 @@ import SwiftUI
 struct ImageFromData: View {
     let url: URL?
     var body: some View {
-        VStack{
-            if let url = url,
-               let data = try? Data(contentsOf: url),
-               let uiImage = UIImage(data: data) {
-                Image(uiImage: uiImage)
-                    .resizable()
-            } else {
+        AsyncImage(url: url) { phase in
+            switch phase {
+            case .empty:
                 Image(.sh2AlbumCover)
+                    .resizable()
+            case .success(let image):
+                image
+                    .resizable()
+            case .failure(let error):
+                Image(.meteoraCover)
+                    .resizable()
+                    .onAppear {
+                        print(error.localizedDescription)
+                    }
+                
+            @unknown default:
+                Image(systemName: "photo")
                     .resizable()
             }
         }
         .scaledToFill()
-        .frame(maxWidth: 250, maxHeight: 250)
+//        .frame(maxWidth: 250, maxHeight: 250)
         .clipped()
         .cornerRadius(5)
-        .padding(10)
+//        .padding(10)
     }
 }
+
+
+//                        .scaledToFill()
+//                        .aspectRatio(1, contentMode: .fill)
+//                        .frame(maxWidth: 150, maxHeight: 150)
+//                        .clipped()
+//                        .cornerRadius(5)
+//                        .padding(10)

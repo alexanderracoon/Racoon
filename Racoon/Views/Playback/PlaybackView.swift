@@ -18,6 +18,8 @@ import SwiftUI
 /// - Returns: A view with the specified style drawn behind it.
 struct PlaybackView: View {
     @Environment(PlaybackManager.self) private var playbackManager : PlaybackManager
+    
+    var isPresented: Bool = false
 
     var body: some View {
         VStack(spacing: 0){
@@ -32,15 +34,14 @@ struct PlaybackView: View {
                     }
                     .foregroundStyle(Color.white)
                 }
-                .background(.black.opacity(0.95))
+                .onTapGesture {
+                    
+                }
+                .background(playbackManager.backgroundColor.opacity(0.95))
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 TrackProgressView(progress: playbackManager.progress)
-//                TrackProgressView(duration: playbackManager.duration, currentTime: playbackManager.currentTime)
-
-//                TrackProgressView(duration: playbackManager.duration, currentTime: playbackManager.currentTime)
             }
             BottomNavigationView()
-//                .aspectRatio(11/3, contentMode: .fit)
         }
     }
 }
