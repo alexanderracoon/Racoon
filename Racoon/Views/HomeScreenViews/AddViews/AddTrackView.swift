@@ -22,16 +22,17 @@ struct AddTrackView: View {
         VStack{
             VStack{
                 CoverDropView(coverData: $form.trackCoverData)
-                if let _ = form.trackData { } else {
+                if let _ = form.trackData { EmptyView() } else {
                     AudioDropView(audioData: $form.trackData)
                 }
+                
             }
             .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
             .foregroundStyle(.white)
               
             Form {
                 Section("Основное") {
-                    TextField(text: $form.title, prompt: Text("Название").foregroundStyle(.grayText)) {
+                    TextField(text: $form.title, prompt: Text("Название").foregroundStyle(.lightGrayText)) {
                         Text("Xexe")
                     }
                     LabeledContent {

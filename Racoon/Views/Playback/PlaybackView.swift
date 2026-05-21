@@ -20,11 +20,11 @@ struct PlaybackView: View {
     @Environment(PlaybackManager.self) private var playbackManager : PlaybackManager
     
     var isPresented: Bool = false
-
+    var proxy = CoverProxy()
     var body: some View {
         VStack(spacing: 0){
             ZStack(alignment: .bottom){
-                TrackViewInList(title: playbackManager.playingTitle, artist: playbackManager.playingArtist, imageURL: playbackManager.playingTrackCover) {
+                TrackViewInList(proxy: proxy, title: playbackManager.playingTitle, artist: playbackManager.playingArtist, imageURL: playbackManager.playingTrackCover) {
                     Button {
                         playbackManager.playPause()
                     } label: {
@@ -37,7 +37,7 @@ struct PlaybackView: View {
                 .onTapGesture {
                     
                 }
-                .background(playbackManager.backgroundColor.opacity(0.95))
+                .background(playbackManager.backgroundColor.overlay(Color.black.opacity(0.3)))
                 .clipShape(RoundedRectangle(cornerRadius: 10))
                 TrackProgressView(progress: playbackManager.progress)
             }

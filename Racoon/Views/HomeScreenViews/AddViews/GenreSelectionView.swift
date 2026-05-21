@@ -21,7 +21,7 @@ struct GenreSelectionView: View {
     
     var body: some View {
 //        LazyVGrid(columns: collumns,alignment: .leading, spacing: 20) {
-        ScrollView(.horizontal) {
+        ScrollView(.horizontal, showsIndicators: false) {
             HStack{
                 ForEach(genres, id: \.id) { genre in
                     GenreSelectionButtonView(

@@ -28,7 +28,6 @@ struct TestView: View {
         Text("Hello").overlay(alignment: .center) {
             Rectangle()
         }
-
     }
 }
 

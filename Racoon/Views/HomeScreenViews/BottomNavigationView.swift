@@ -25,8 +25,6 @@ struct BottomNavigationView: View {
             .foregroundStyle(Color.white)
         }
         .padding(10)
-//        .background()
         .background(LinearGradient(colors: [.black.opacity(0.9), .black.opacity(0.8)], startPoint: .bottom, endPoint: .top))
-//        .clipShape(RoundedRectangle(cornerRadius: 10))
     }
 }

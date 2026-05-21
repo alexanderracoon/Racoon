@@ -11,7 +11,7 @@ import SwiftUI
 struct FavoriteView : View {
     @Environment(ViewModel.self) private var viewModel: ViewModel
     @Environment(PlaybackManager.self) private var playbackManager : PlaybackManager
-    
+    var proxy = CoverProxy()
     var body: some View {
         VStack(alignment: .leading){
 //            Button ("Add Track") {
@@ -27,7 +27,7 @@ struct FavoriteView : View {
                 .padding(.leading, 10)
             List{
                 ForEach(viewModel.tracks) { track in
-                    TrackViewInList(title: track.title, artist: track.artists.first?.name, imageURL: track.cover) {
+                    TrackViewInList(proxy: proxy, title: track.title, artist: track.artists.first?.name, imageURL: track.cover) {
                         Button {
                             print(track.artists.first?.name ?? "Blank Name")
                             playbackManager.play(track: track)
@@ -68,23 +68,8 @@ struct FavoriteView : View {
                         AddTrackView()
                     } label: {
                         Text("Track")
-//                        Image(systemName: "plus")
                     }
                 }
-//                ToolbarItem {
-//                    NavigationLink {
-//                        AddAlbumView()
-//                    } label: {
-//                        Text("Al")
-//                    }
-//                }
-//                ToolbarItem {
-//                    NavigationLink {
-//                        AddArtistView()
-//                    } label: {
-//                        Text("Art")
-//                    }
-//                }
 //                ToolbarItem {
 //                    Button ("+Track") {
 //                        viewModel.createTrack(title: "New Track 2 ", duration: 100, audioFormat: .mp3, trackCoverData: Data(), isDownloaded: true, isFavourite: true, timeAdded: Date(), timeLastPlayed: Date(), timesPlayed: 10, trackData: Data(), albumTitle: "New Album 2", artistName: "New Artist 2", genreName: "New Genre 2")

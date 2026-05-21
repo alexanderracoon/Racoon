@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 class LocalMediaStorage {
-    //MARK: - URLS
+    //MARK: - URLs
     var documentsURL: URL {
         guard let url = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first else {
             fatalError("Деректория не найдена")
@@ -24,7 +24,6 @@ class LocalMediaStorage {
     
     //MARK: - Audio
     func saveAudio(data dataFromView: Data?, trackID: UUID, format: AudioFormat) -> URL {
-        //MARK: Проверка на существование деректорий и т.п
         createDirectoryIfNeeded(for: audioURL)
         //MARK: - Сделать проверку выше
         guard let data = dataFromView else { fatalError("Data is nil")}
@@ -54,13 +53,6 @@ class LocalMediaStorage {
     }
     
     //MARK: - Track Cover
-    //MARK: Уменьшить привязку к CoreData и передавать id сразу?
-    func loadTrackCover(track: Track) -> Data? {
-        guard let id = track.id else { return nil}
-        let url = trackCoversURL.appendingPathComponent("\(id).jpg")
-        return loadImage(for: url)
-    }
-    
     func removeTrackCover(trackID: UUID?) {
         guard let trackID = trackID else { return print("ID doesn't exist")}
         let url = trackCoversURL.appendingPathComponent ("\(trackID).jpg")
@@ -91,12 +83,6 @@ class LocalMediaStorage {
     }
           
     //MARK: - Album Cover
-    func loadAlbumCover(album: Album) -> Data? {
-        guard let id = album.id else { return nil}
-        let url = albumCoversURL.appendingPathComponent("\(id).jpg")
-        return loadImage(for: url)
-    }
-    
     func removeAlbumCover(albumID: UUID?) {
         guard let albumID = albumID else { return print("ID doesn't exist")}
         let url = albumCoversURL.appendingPathComponent ("\(albumID).jpg")
@@ -111,7 +97,6 @@ class LocalMediaStorage {
 
     func saveAlbumCover(data dataFromView: Data?, albumID: UUID) -> URL {
         createDirectoryIfNeeded (for: albumCoversURL)
-        
         //MARK: - Сделать проверку
         guard let data = dataFromView else { fatalError("Data is nil")}
 
@@ -129,12 +114,6 @@ class LocalMediaStorage {
     }
     
     //MARK: - Artist Cover
-    func loadArtistCover(artist: Artist) -> Data? {
-        guard let id = artist.id else { return nil}
-        let url = artistCoversURL.appendingPathComponent("\(id).jpg")
-        return loadImage(for: url)
-    }
-    
     func removeArtistCover(artistID: UUID?) {
         guard let artistID = artistID else { return print("ID doesn't exist")}
         let url = artistCoversURL.appendingPathComponent ("\(artistID).jpg")
@@ -180,35 +159,5 @@ class LocalMediaStorage {
     func deleteFile(at url: URL?) {
         guard let url else { return }
         try? FileManager.default.removeItem(at: url)
-    }
-    
-//    func saveData(data: Data) {
-//        let newFolderUrl: URL = documentsURL.appendingPathComponent("Audio")
-//        
-//        FileManager.default.createFile(
-//            atPath: newFolderUrl.path(),
-//            contents: data,
-//            attributes: [FileAttributeKey.creationDate : Date()])
-//    }
-    
-    
-    //MARK: - Удалить/заменить
-    func saveImage(data: Data) -> URL? {
-        let folder = FileManager.default
-            .urls(for: .documentDirectory, in: .userDomainMask)[0]
-            .appendingPathComponent("images")
-        
-        try? FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
-        
-        let fileURL = folder.appendingPathComponent("\(UUID().uuidString).jpg")
-        
-        print(fileURL)
-        do {
-            try data.write(to: fileURL)
-            return fileURL
-        } catch {
-            print("Save error:", error)
-            return nil
-        }
     }
 }

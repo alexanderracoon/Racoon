@@ -24,9 +24,8 @@ struct CoverDropView: View {
                     .overlay(Text("Drop photo"))
             }
         }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .frame(maxWidth: 200, maxHeight: 200)
         .aspectRatio(1, contentMode: .fill)
-        .padding(EdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20))
         .foregroundStyle(.white)
         .contentShape(Rectangle())
         .dropDestination(for: Data.self) { items, _ in

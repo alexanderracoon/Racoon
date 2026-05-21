@@ -44,58 +44,9 @@ class ViewModel {
         self.trackCreationService = TrackCreationService(stack: stack, trackRepository: trackRepository, genreRepository: genreRepository, mediaStorage: mediaStorage)
         self.artistCreationService = ArtistCreationService(stack: stack, artistRepository: artistRepository, mediaStorage: mediaStorage)
         self.albumCreationService = AlbumCreationService(stack: stack, albumRepository: albumRepository, mediaStorage: mediaStorage)
-//        self.trackCreationService = SongCreationService(
-//            stack: stack,
-//            trackRepository: trackRepository,
-//            albumRepository: albumRepository,
-//            artistRepository: artistRepository,
-//            genreRepository: genreRepository,
-//            mediaStorage: mediaStorage
-//        )
-//        loadTracks()
         loadData()
     }
     
-//    func createTrack(
-//        title: String,
-//        duration: Double,
-//        audioFormat: AudioFormat,
-//        trackCoverData: Data,
-//        isDownloaded: Bool,
-//        isFavourite: Bool,
-//        timeAdded: Date,
-//        timeLastPlayed: Date,
-//        timesPlayed: Int32,
-//        trackData: Data,
-//        albumName: String = "",
-//        album: Album? = nil,
-//        artistName: String = "",
-//        artist: Artist? = nil,
-//        genreName: String
-//    ) {
-//        do {
-//            try trackCreationService.createTrack(
-//                title: title,
-//                duration: duration,
-//                audioFormat: audioFormat,
-//                trackCoverData: trackCoverData,
-//                isDownloaded: isDownloaded,
-//                isFavourite: isFavourite,
-//                timeAdded: timeAdded,
-//                timeLastPlayed: timeLastPlayed,
-//                timesPlayed: timesPlayed,
-//                trackData: trackData,
-//                albumTitle: albumName,
-//                album: album,
-//                artistName: artistName,
-//                artist: artist,
-//                genreName: genreName)
-//            loadData()
-//        } catch let error as NSError {
-//            print("CoreData saveContext error ", error.localizedDescription)
-//            print("Save error: \(error)")
-//        }
-//    }
     
     func createTrack(_ trackDTO: TrackDTO) {
         do {
@@ -246,8 +197,6 @@ class ViewModel {
         genreRepository.delete(genre)
     }
     
-    
-    //MARK: - Пока не нужно
     func loadData() {
         tracks = fetchAllTracks()
         albums = fetchAllAlbums()

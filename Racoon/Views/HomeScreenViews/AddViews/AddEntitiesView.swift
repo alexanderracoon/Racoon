@@ -22,7 +22,6 @@ struct AddEntitiesView: View {
             }
         }
         .preferredColorScheme(.dark)
-
     }
 }
 

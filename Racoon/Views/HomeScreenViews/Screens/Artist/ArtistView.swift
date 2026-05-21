@@ -23,14 +23,15 @@ struct ArtistView: View {
     }
     @State private var selectedTrack: Track?
 
+    var proxy = CoverProxy()
     var body: some View {
         ScrollView{
-            ImageFromData(url: artist.cover)
+            ImageFromData(proxy: proxy, url: artist.cover)
                 .frame(maxWidth: 250, maxHeight: 250)
             
             LazyVStack {
                 ForEach(tracks) { track in
-                    TrackViewInList(title: track.title, artist: artist.name, imageURL: track.cover) {
+                    TrackViewInList(proxy: proxy, title: track.title, artist: artist.name, imageURL: track.cover) {
                         Button {
                             selectedTrack = track
                         } label: {

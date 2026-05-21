@@ -53,27 +53,12 @@ struct CardView: View {
             .frame(maxWidth: 150, maxHeight: 150)
             .clipped()
             
-//            VStack{
-//                if let url = imageURL,
-//                   let data = try? Data(contentsOf: url),
-//                   let uiImage = UIImage(data: data) {
-//                    Image(uiImage: uiImage)
-//                        .resizable()
-//                } else {
-//                    Image(.sh2AlbumCover)
-//                        .resizable()
-//                }
-//            }
-//                .aspectRatio(1, contentMode: .fill)
-//                .frame(maxWidth: 150, maxHeight: 150)
-//                .clipped()
-            
             Text(title)
                 .lineLimit(1)
             if let subTitle = subTitle {
                 Text(subTitle)
                     .lineLimit(1)
-                    .foregroundStyle(.grayText)
+                    .foregroundStyle(.lightGrayText)
             }
         }
         .aspectRatio(4/3, contentMode: .fill)
